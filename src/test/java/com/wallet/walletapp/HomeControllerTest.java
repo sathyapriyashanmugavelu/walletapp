@@ -8,8 +8,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(GreetingController.class)
-class GreetingControllerTest {
+@WebMvcTest(HomeController.class)
+class HomeControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -17,15 +17,15 @@ class GreetingControllerTest {
     void shouldDisplayGreet() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("greetMessage", "Hello World"))
                 .andExpect(view().name("home"));
     }
 
     @Test
     void shouldDisplayGreetWithName() throws Exception {
-        mockMvc.perform(get("/?name=test"))
+        mockMvc.perform(get("/?name=test&walletId=1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("greetMessage", "Hello test"))
+                .andExpect(model().attribute("balance", "4000"))
                 .andExpect(view().name("home"));
     }
 }
