@@ -3,6 +3,7 @@ package com.wallet.walletapp;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -14,5 +15,10 @@ class TransactionController {
         model.addAttribute("walletId", walletId);
         model.addAttribute("transaction", transaction);
         return "transactions/new";
+    }
+
+    @PostMapping
+    String create() {
+        return "redirect:/wallets/1";
     }
 }
