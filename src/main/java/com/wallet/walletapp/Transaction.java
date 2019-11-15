@@ -36,4 +36,13 @@ class Transaction {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", remarks='" + remarks + '\'' +
+                '}';
+    }
 }

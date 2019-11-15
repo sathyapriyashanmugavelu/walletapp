@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Transactions</title>
 </head>
 <body>
-<form action="#" th:action="@{'/wallets/'+${walletId}+'/transactions'}" th:object = "${transaction}" method="post">
+<form action="#" th:action="@{'/wallets/'+${walletId}+'/transactions'}" th:object="${transaction}" method="post">
     <div>
-        <p>Add Money: <input type="text" th:text = "*{amount}"/></p>
-        <p>Remarks: <input type="text" th:text ="*{remarks}"/></div></p>
+        <p>Add Money: <input type="text" th:field="*{amount}" id="amount"/></p>
+        <p>Remarks: <input type="text" th:field="*{remarks}" id="remarks"/></div></p>
     <input type="submit">
     </div>
 
