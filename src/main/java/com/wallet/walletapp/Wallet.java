@@ -12,7 +12,18 @@ class Wallet {
     private Long id;
     private Long balance;
 
+    public Wallet() {
+    }
+
+    public Wallet(Long balance) {
+        this.balance = balance;
+    }
+
     public Long getBalance() {
         return balance;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

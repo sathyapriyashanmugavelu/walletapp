@@ -14,7 +14,7 @@ public class WalletController {
     @RequestMapping("/wallets/{id}")
     String get(Model model, @PathVariable Long id) {
         Wallet wallet = walletRepository.findById(id).get();
-        model.addAttribute("balance", wallet.getBalance());
+        model.addAttribute("wallet", wallet);
         return "wallets/show";
     }
 }

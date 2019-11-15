@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+</head>
+<body>
+<form action="#" th:action="@{'/wallets/'+${walletId}+'/transactions'}" th:object = "${transaction}" method="post">
+    <div>
+        <p>Add Money: <input type="text" th:text = "*{amount}"/></p>
+        <p>Remarks: <input type="text" th:text ="*{remarks}"/></div></p>
+    <input type="submit">
+    </div>
+
+</form>
+</body>
+</html>
