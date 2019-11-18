@@ -1,4 +1,4 @@
-package com.wallet.walletapp;
+package com.wallet.walletapp.wallet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

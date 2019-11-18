@@ -1,4 +1,4 @@
-package com.wallet.walletapp;
+package com.wallet.walletapp.wallet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.wallet.walletapp;
+package com.wallet.walletapp.wallet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
