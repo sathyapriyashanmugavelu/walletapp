@@ -13,6 +13,14 @@ class Transaction {
     private Long amount;
     private String remarks;
 
+    public Transaction() {
+    }
+
+    public Transaction(Long amount, String remarks) {
+        this.amount = amount;
+        this.remarks = remarks;
+    }
+
     public Long getId() {
         return id;
     }
