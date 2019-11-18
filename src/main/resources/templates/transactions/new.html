@@ -12,6 +12,9 @@
     <input type="submit">
     </div>
 
+    <div>
+        <span class="error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+    </div>
 </form>
 </body>
 </html>
