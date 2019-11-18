@@ -13,7 +13,7 @@ public class Wallet {
     private Long id;
     private Long balance;
 
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
 
     public Wallet() {
@@ -29,5 +29,13 @@ public class Wallet {
 
     public Long getId() {
         return id;
+    }
+
+    public void debit(Long amount) {
+        balance += amount;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 }

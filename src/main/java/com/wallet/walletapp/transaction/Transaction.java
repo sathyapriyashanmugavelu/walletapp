@@ -36,6 +36,10 @@ public class Transaction {
         return remarks;
     }
 
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -63,5 +67,9 @@ public class Transaction {
                 ", amount=" + amount +
                 ", remarks='" + remarks + '\'' +
                 '}';
+    }
+
+    void process() {
+        wallet.debit(amount);
     }
 }

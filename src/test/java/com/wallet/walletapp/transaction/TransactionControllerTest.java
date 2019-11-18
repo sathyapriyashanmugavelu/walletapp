@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.isA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -20,7 +21,7 @@ class TransactionControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    TransactionRepository transactionRepository;
+    TransactionService transactionService;
 
     @Test
     void shouldShowNewTransaction() throws Exception {
@@ -40,7 +41,7 @@ class TransactionControllerTest {
                 .andExpect(view().name("redirect:/wallets/1"));
 
         ArgumentCaptor<Transaction> argument = ArgumentCaptor.forClass(Transaction.class);
-        verify(transactionRepository).save(argument.capture());
+        verify(transactionService).create(argument.capture(), eq(1L));
         assertEquals("rent", argument.getValue().getRemarks());
         assertEquals(100L, argument.getValue().getAmount());
     }

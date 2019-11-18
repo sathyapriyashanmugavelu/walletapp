@@ -21,7 +21,9 @@ class TransactionService {
 
     public Transaction create(Transaction transaction, Long walletId) throws WalletNotFoundException {
         Wallet wallet = walletService.fetch(walletId);
+        transaction.setTransactionType(TransactionType.DEBIT);
         transaction.setWallet(wallet);
+        transaction.process();
         return transactionRepository.save(transaction);
     }
 }
