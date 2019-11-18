@@ -2,8 +2,10 @@ package com.wallet.walletapp.transaction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wallet.walletapp.wallet.Wallet;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Transaction {
@@ -20,6 +22,11 @@ public class Transaction {
     @JoinColumn(name = "wallet_id")
     @JsonIgnore
     private Wallet wallet;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private Date createdAt;
+
 
     public Transaction() {
     }
