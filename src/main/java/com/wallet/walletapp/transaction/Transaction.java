@@ -5,6 +5,7 @@ import com.wallet.walletapp.wallet.Wallet;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Entity
@@ -12,6 +13,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Min(value = 10, message = "Amount should not be lesser than 10")
     private Long amount;
     private String remarks;
 
