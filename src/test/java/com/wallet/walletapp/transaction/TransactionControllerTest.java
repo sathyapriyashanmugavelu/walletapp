@@ -1,4 +1,4 @@
-package com.wallet.walletapp.wallet.transaction;
+package com.wallet.walletapp.transaction;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

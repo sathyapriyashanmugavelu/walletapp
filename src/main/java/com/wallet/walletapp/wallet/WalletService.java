@@ -12,7 +12,7 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
-    Wallet fetch(Long id) throws WalletNotFoundException {
+    public Wallet fetch(Long id) throws WalletNotFoundException {
         return walletRepository.findById(id).orElseThrow(WalletNotFoundException::new);
     }
 }

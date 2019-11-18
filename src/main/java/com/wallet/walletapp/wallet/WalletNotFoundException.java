@@ -1,4 +1,4 @@
 package com.wallet.walletapp.wallet;
 
-class WalletNotFoundException extends Exception {
+public class WalletNotFoundException extends Exception {
 }

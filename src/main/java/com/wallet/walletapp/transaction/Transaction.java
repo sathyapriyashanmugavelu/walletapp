@@ -1,24 +1,27 @@
-package com.wallet.walletapp.wallet.transaction;
+package com.wallet.walletapp.transaction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wallet.walletapp.wallet.Wallet;
+
+import javax.persistence.*;
 
 @Entity
-class Transaction {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long amount;
     private String remarks;
 
-    public Transaction() {
-    }
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
 
-    public Transaction(Long amount, String remarks) {
-        this.amount = amount;
-        this.remarks = remarks;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wallet_id")
+    @JsonIgnore
+    private Wallet wallet;
+
+    public Transaction() {
     }
 
     public Long getId() {
@@ -43,6 +46,14 @@ class Transaction {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 
     @Override
