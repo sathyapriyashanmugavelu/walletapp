@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class WalletController {
     @Autowired
-    private WalletRepository walletRepository;
+    private WalletService walletService;
 
     @RequestMapping("/wallets/{id}")
-    String get(Model model, @PathVariable Long id) {
-        Wallet wallet = walletRepository.findById(id).get();
+    String get(Model model, @PathVariable Long id) throws WalletNotFoundException {
+        Wallet wallet = walletService.fetch(id);
         model.addAttribute("wallet", wallet);
         return "wallets/show";
     }
