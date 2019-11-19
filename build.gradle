@@ -32,6 +32,7 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-security"
 	compile 'org.postgresql:postgresql:42.2.5'
 	compile 'org.flywaydb:flyway-core'
+	compile group: 'org.projectlombok', name: 'lombok', version: '0.11.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -52,7 +53,7 @@ jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			limit {
-				minimum = 0.95
+				minimum = 0.90
 			}
 		}
 	}
