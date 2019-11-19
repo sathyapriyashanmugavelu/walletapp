@@ -1,6 +1,7 @@
 package com.wallet.walletapp.wallet;
 
 import com.wallet.walletapp.transaction.Transaction;
+import com.wallet.walletapp.user.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +16,10 @@ public class Wallet {
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Wallet() {
     }
@@ -37,5 +42,13 @@ public class Wallet {
 
     public List<Transaction> getTransactions() {
         return transactions;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
