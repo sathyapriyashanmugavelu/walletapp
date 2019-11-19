@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class WalletServiceTest {
@@ -34,5 +33,15 @@ class WalletServiceTest {
         WalletService walletService = new WalletService(walletRepository);
 
         assertThrows(WalletNotFoundException.class, () -> walletService.fetch(invalidId));
+    }
+
+    @Test
+    void shouldCreateAWallet() {
+        WalletService walletService = new WalletService(walletRepository);
+
+        Wallet savedWallet = walletService.create(new Wallet(100L));
+
+        assertNotNull(savedWallet);
+        assertNotNull(savedWallet.getId());
     }
 }

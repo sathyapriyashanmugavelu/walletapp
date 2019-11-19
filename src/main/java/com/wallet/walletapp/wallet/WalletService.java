@@ -15,4 +15,8 @@ public class WalletService {
     public Wallet fetch(Long id) throws WalletNotFoundException {
         return walletRepository.findById(id).orElseThrow(WalletNotFoundException::new);
     }
+
+    public Wallet create(Wallet wallet) {
+        return walletRepository.save(wallet);
+    }
 }
