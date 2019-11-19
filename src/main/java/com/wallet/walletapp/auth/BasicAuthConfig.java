@@ -27,6 +27,9 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and()
-                .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID");
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll();
     }
 }
