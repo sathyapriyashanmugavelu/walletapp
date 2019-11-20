@@ -35,4 +35,15 @@ javac -version
     
 - Running app in Intellij
     - Set spring profile in Edit configurations VM Options: 
-    `-Dspring.profiles.active=dev`     
+    `-Dspring.profiles.active=dev`  
+    
+- Heroku deployment
+    - install heroku CLI `brew tap heroku/brew && brew install heroku`
+    - Login to Heroku
+    `heroku login` 
+    - `git init` from the project directory if not git initialized
+    -  commit latest `gc -m 'enter comments here'`
+    - create a heroku app `heroku create`
+    - Install Add-on 'Heroku Postgres' on the deployed heroku app 
+    - `git push heroku master`
+    - Currently accessible in https://shrouded-oasis-00998.herokuapp.com/
