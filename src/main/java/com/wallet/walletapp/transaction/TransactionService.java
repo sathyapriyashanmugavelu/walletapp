@@ -6,6 +6,8 @@ import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 class TransactionService {
     @Autowired
@@ -25,5 +27,10 @@ class TransactionService {
         transaction.setWallet(wallet);
         transaction.process();
         return transactionRepository.save(transaction);
+    }
+
+    public List<Transaction> fetch(Long walletId) {
+        List<Transaction> transactions=transactionRepository.findByWalletId(walletId);
+        return transactions;
     }
 }

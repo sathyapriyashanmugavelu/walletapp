@@ -1,5 +1,6 @@
 package com.wallet.walletapp.transaction;
 
+import com.wallet.walletapp.wallet.Wallet;
 import com.wallet.walletapp.wallet.WalletNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequestMapping("/wallets/{walletId}/transactions")
@@ -35,5 +38,14 @@ class TransactionController {
 
         transactionService.create(transaction, walletId);
         return "redirect:/wallets/" + walletId;
+    }
+
+    @RequestMapping("/show")
+    String showTransaction(@PathVariable long walletId,Model model){
+        List<Transaction> transaction = transactionService.fetch(walletId);
+        transaction.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
+        model.addAttribute("walletId", walletId);
+        model.addAttribute("transaction", transaction);
+        return "transactions/show";
     }
 }

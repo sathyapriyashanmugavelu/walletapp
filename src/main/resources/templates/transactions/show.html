@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Transaction History</title>
 </head>
 <body>
+<a th:href="@{'/wallets/'+${walletId}}">Back to Dashboard</a>
 
+<br>
+<br>
+
+<table border="1">
+    <thead border="2">
+    <th>Transaction ID</th>
+    <th>Wallet ID</th>
+    <th>Amount</th>
+    <th>Transaction Type</th>
+    <th>Remarks</th>
+    <th>Transaction Date & Time</th>
+    </thead>
+    <tbody>
+    <tr th:each="eachTransaction : ${transaction}">
+        <td th:text="${eachTransaction.id}"></td>
+        <td th:text="${walletId}"></td>
+        <td th:text="${eachTransaction.amount}"></td>
+        <td th:text="${eachTransaction.transactionType}"></td>
+        <td th:text="${eachTransaction.remarks}"></td>
+        <td th:text="${{eachTransaction.createdAt}}"></td>
+    </tbody>
+</table>
 </body>
 </html>

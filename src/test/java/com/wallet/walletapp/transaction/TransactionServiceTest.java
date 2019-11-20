@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -52,6 +54,15 @@ class TransactionServiceTest {
         newTransaction.setAmount(50L);
         newTransaction.setTransactionType(TransactionType.DEBIT);
         return newTransaction;
+    }
+
+    @Test
+    void fetchATransaction() throws Exception {
+        //Wallet savedWallet = walletRepository.save(new Wallet(100L));
+
+        List<Transaction> transaction=transactionRepository.findByWalletId(1L);
+
+        assertEquals(100L, transaction.get(1).getAmount());
     }
 
 }
