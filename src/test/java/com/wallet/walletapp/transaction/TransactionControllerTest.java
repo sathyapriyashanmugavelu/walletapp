@@ -53,4 +53,11 @@ class TransactionControllerTest {
         assertEquals("rent", argument.getValue().getRemarks());
         assertEquals(100L, argument.getValue().getAmount());
     }
+
+    @Test
+    void shouldShowViewAllTransactions() throws Exception {
+        mockMvc.perform(post("/wallets/1/transactions/show").with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("transactions/show"));
+    }
 }
