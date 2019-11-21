@@ -18,21 +18,17 @@
 <h3>Transaction History</h3>
 <table border="1" >
     <thead border="2">
-    <th>Transaction ID</th>
-    <th>Wallet ID</th>
-    <th>Amount</th>
-    <th>Transaction Type</th>
-    <th>Remarks</th>
     <th>Transaction Date & Time</th>
+    <th>Transaction Type</th>
+    <th>Amount</th>
+    <th>Remarks</th>
     </thead>
     <tbody>
     <tr th:each="eachTransaction : ${transaction}">
-        <td th:text="${eachTransaction.id}"></td>
-        <td th:text="${walletId}"></td>
-        <td th:text="${eachTransaction.amount}"></td>
+        <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td>
         <td th:text="${eachTransaction.transactionType}"></td>
+        <td th:text="${eachTransaction.amount}"></td>
         <td th:text="${eachTransaction.remarks}"></td>
-        <td th:text="${{eachTransaction.createdAt}}"></td>
     </tbody>
 </table>
 </div>
