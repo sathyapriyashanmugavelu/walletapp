@@ -46,4 +46,5 @@ class TransactionTest {
         newTransaction.setTransactionType(TransactionType.DEBIT);
         return newTransaction;
     }
+
 }

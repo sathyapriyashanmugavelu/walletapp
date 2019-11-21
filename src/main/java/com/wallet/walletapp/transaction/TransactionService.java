@@ -29,7 +29,7 @@ class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-    public List<Transaction> fetch(Long walletId) {
+    public List<Transaction> findTransaction(Long walletId) {
         List<Transaction> transactions=transactionRepository.findByWalletId(walletId);
         return transactions;
     }

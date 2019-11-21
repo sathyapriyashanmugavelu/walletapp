@@ -1,6 +1,5 @@
 package com.wallet.walletapp.transaction;
 
-import com.wallet.walletapp.wallet.Wallet;
 import com.wallet.walletapp.wallet.WalletNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,7 +41,7 @@ class TransactionController {
 
     @RequestMapping("/show")
     String showTransaction(@PathVariable long walletId,Model model){
-        List<Transaction> transaction = transactionService.fetch(walletId);
+        List<Transaction> transaction = transactionService.findTransaction(walletId);
         transaction.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
         model.addAttribute("walletId", walletId);
         model.addAttribute("transaction", transaction);
