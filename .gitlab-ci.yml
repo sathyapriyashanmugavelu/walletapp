@@ -1,8 +1,30 @@
-stages:
- - deploy
-test:
-    stage: deploy
-    script: 
-        echo 'Hello world'
-    only:
-        - master
+image: gradle:5.3.0-jdk11
+build:
+  stage: test
+  script:
+    - gradle build
+  artifacts:
+    expire_in: 1 week
+    reports:
+      junit: build/test-results/test/TEST-*.xml
+stg-deploy:
+  stage: deploy
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=wallet-app-stage --api-key=$HEROKU_API_KEY
+  only:
+    - master
+stg-prod:
+  stage: deploy
+  image: ruby:latest
+  script:
+  when : manual
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=wallet-app-prod --api-key=$HEROKU_API_KEY
+  only:
+    - master
