@@ -55,14 +55,4 @@ class TransactionServiceTest {
         newTransaction.setTransactionType(TransactionType.DEBIT);
         return newTransaction;
     }
-
-    @Test
-    void fetchATransaction() throws Exception {
-        //Wallet savedWallet = walletRepository.save(new Wallet(100L));
-
-        List<Transaction> transaction=transactionRepository.findByWalletId(1L);
-
-        assertEquals(100L, transaction.get(1).getAmount());
-    }
-
 }

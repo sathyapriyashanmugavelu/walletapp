@@ -14,7 +14,9 @@
     No Transactions have been performed on this wallet
 </p>
 
-<table border="1" th:unless="${transaction.empty}">
+<div th:unless="${transaction.empty}">
+<h3>Transaction History</h3>
+<table border="1" >
     <thead border="2">
     <th>Transaction ID</th>
     <th>Wallet ID</th>
@@ -33,6 +35,6 @@
         <td th:text="${{eachTransaction.createdAt}}"></td>
     </tbody>
 </table>
-
+</div>
 </body>
 </html>
