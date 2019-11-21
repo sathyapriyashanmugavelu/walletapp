@@ -1,5 +1,5 @@
 stages:
  - deploy
-deploy:
- - script 
- - echo "test"
+test:
+stage : deploy
+ script : echo "test"
