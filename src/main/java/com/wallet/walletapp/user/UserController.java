@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/users")
-public class SignUpController {
+public class UserController {
     @Autowired
     UserService userService;
 
     @RequestMapping("/new")
-    String newSignUp(Model model) {
+    String newUser(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "signup";
+        return "user/signup";
     }
 
     @PostMapping

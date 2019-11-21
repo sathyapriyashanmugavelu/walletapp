@@ -9,8 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@WebMvcTest(SignUpController.class)
-public class SignUpControllerTest {
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -19,8 +19,8 @@ public class SignUpControllerTest {
 
     @Test
     void shouldDisplaySignUp() throws Exception {
-        mockMvc.perform(get("/signup"))
+        mockMvc.perform(get("/users/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("signup"));
+                .andExpect(view().name("user/signup"));
     }
 }
