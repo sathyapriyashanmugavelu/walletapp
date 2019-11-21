@@ -39,6 +39,10 @@ public class User {
         return password;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public void setPassword(String password) {
         this.password = PASSWORD_ENCODER.encode(password);
     }
@@ -49,5 +53,15 @@ public class User {
 
     public Long walletId() {
         return wallet.getId();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", wallet=" + wallet +
+                '}';
     }
 }
