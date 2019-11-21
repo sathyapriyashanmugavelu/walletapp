@@ -1,2 +1,4 @@
+stages:
+ - test
 test:
  - echo "test"
