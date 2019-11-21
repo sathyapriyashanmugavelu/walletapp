@@ -1,5 +1,6 @@
 package com.wallet.walletapp;
 
+import com.wallet.walletapp.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

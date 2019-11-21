@@ -31,15 +31,15 @@ public class User {
     public User() {
     }
 
-    String getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = PASSWORD_ENCODER.encode(password);
     }
 
