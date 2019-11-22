@@ -42,7 +42,6 @@ class TransactionController {
     @RequestMapping("/show")
     String showTransaction(@PathVariable long walletId,Model model){
         List<Transaction> transaction = transactionService.findTransaction(walletId);
-        transaction.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
         model.addAttribute("walletId", walletId);
         model.addAttribute("transaction", transaction);
         return "transactions/show";
