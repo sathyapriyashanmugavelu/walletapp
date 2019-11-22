@@ -5,11 +5,11 @@
     <title>Sign Up</title>
 </head>
 <body>
-<form  th:action="@{'/wallets/'+${walletId}}" method="post" th:object="${user}"  >
-       Username:
-    <input type="text" th:field="*{userName}"/></br>
+<form method="post" th:action="@{/users}" th:object="${user}">
+    Username:
+    <input th:field="*{userName}" type="text"/></br>
     Password:
-    <input type="text" th:field="*{password}"/></br>
+    <input th:field="*{password}" type="text"/></br>
     <input type="submit" value="Submit"/>
 </form>
 </body>
