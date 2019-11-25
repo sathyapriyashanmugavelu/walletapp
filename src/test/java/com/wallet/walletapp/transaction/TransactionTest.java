@@ -18,12 +18,12 @@ class TransactionTest {
     @Test
     void shouldUpdateWalletBalanceOnProcess() {
         Wallet wallet = mock(Wallet.class);
-        Transaction transaction = debitTransaction();
+        Transaction transaction = creditTransaction();
         transaction.setWallet(wallet);
 
         transaction.process();
 
-        verify(wallet).debit(50L);
+        verify(wallet).credit(50L);
     }
 
     @Test
@@ -40,10 +40,10 @@ class TransactionTest {
         assertEquals("Amount should not be lesser than 10", violations.iterator().next().getMessage());
     }
 
-    private Transaction debitTransaction() {
+    private Transaction creditTransaction() {
         Transaction newTransaction = new Transaction();
         newTransaction.setAmount(50L);
-        newTransaction.setTransactionType(TransactionType.DEBIT);
+        newTransaction.setTransactionType(TransactionType.CREDIT);
         return newTransaction;
     }
 

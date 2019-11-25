@@ -10,7 +10,7 @@ class WalletTest {
         Wallet wallet = new Wallet(100L);
         Long debitOf100 = 100L;
 
-        wallet.debit(debitOf100);
+        wallet.credit(debitOf100);
 
         assertEquals(200, wallet.getBalance());
     }

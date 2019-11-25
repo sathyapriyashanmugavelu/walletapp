@@ -1,10 +1,8 @@
 package com.wallet.walletapp.transaction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.StringIdGenerator;
 import com.wallet.walletapp.wallet.Wallet;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -84,7 +82,7 @@ public class Transaction {
     }
 
     void process() {
-        wallet.debit(amount);
+        wallet.credit(amount);
     }
 
     public Date getCreatedAt() {
