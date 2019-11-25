@@ -6,8 +6,12 @@ import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class TransactionService {
@@ -32,13 +36,38 @@ public class TransactionService {
 
     public List<Transaction> findTransaction(Long walletId) {
         List<Transaction> transactions=transactionRepository.findByWalletId(walletId);
-        transactions.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
-        return transactions;
+        List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
+        List<Transaction> sortedTransactions = sortTransactions(transactionsWithDateFormat);
+        return sortedTransactions;
     }
 
     public List<Transaction> getRecentTransactions(Long walletId) {
         List<Transaction> transactions = transactionRepository.getRecentByWalletId(walletId);
+        List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
+        List<Transaction> sortedTransactions = sortTransactions(transactionsWithDateFormat);
+        return sortedTransactions;
+    }
+
+    public List<Transaction> sortTransactions(List<Transaction> transactions)
+    {
         transactions.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
         return transactions;
+    }
+
+    public List<Transaction> addISTDateFormat(List<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            Date createdAt = transaction.getCreatedAt();
+            String istFormat = formatTime(createdAt);
+            transaction.setCreatedAtISTFormat(istFormat);
+        }
+        return transactions;
+    }
+
+    private static String formatTime(Date date) {
+        Calendar ist = Calendar.getInstance(TimeZone.getTimeZone("IST"));
+        ist.setTime(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy'T'HH:mm:ss.SSSXXX zzz");
+        sdf.setCalendar(ist);
+        return sdf.format(ist.getTime());
     }
 }

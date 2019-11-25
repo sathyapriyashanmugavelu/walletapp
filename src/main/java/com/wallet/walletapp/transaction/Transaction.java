@@ -89,6 +89,10 @@ public class Transaction {
         return createdAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getcreatedAtISTFormat() {
         return this.createdAtISTFormat;
     }

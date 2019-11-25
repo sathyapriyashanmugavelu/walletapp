@@ -20,7 +20,8 @@
     </thead>
     <tbody>
     <tr th:each="transaction : ${recentTransactions}">
-        <td th:text="${#calendars.format(transaction.createdAt)}"></td>
+        <!-- <td th:text="${#calendars.format(transaction.createdAt)}"></td> -->
+        <td th:text="${transaction.getcreatedAtISTFormat()}"></td>
         <td th:text="${#strings.capitalize(transaction.transactionType)}"></td>
         <td th:text="${transaction.amount}"></td>
         <td th:text="${transaction.remarks}"></td>
