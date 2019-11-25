@@ -6,10 +6,11 @@ import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
-class TransactionService {
+public class TransactionService {
     @Autowired
     WalletService walletService;
 
@@ -31,6 +32,13 @@ class TransactionService {
 
     public List<Transaction> findTransaction(Long walletId) {
         List<Transaction> transactions=transactionRepository.findByWalletId(walletId);
+        transactions.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
+        return transactions;
+    }
+
+    public List<Transaction> getRecentTransactions(Long walletId) {
+        List<Transaction> transactions = transactionRepository.getRecentByWalletId(walletId);
+        transactions.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
         return transactions;
     }
 }

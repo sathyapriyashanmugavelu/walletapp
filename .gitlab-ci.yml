@@ -17,6 +17,7 @@ stg-deploy:
     - dpl --provider=heroku --app=wallet-app-stage --api-key=$HEROKU_API_KEY
   only:
     - master
+  when : manual
 stg-prod:
   stage: deploy
   image: ruby:latest
@@ -27,3 +28,4 @@ stg-prod:
     - dpl --provider=heroku --app=wallet-app-prod --api-key=$HEROKU_API_KEY
   only:
     - master
+  when : manual

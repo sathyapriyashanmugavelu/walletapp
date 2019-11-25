@@ -10,5 +10,21 @@
 <a th:href="@{'/wallets/' + ${wallet.id} + '/transactions/new'}">Add Money</a>
 <br>
 <a th:href="@{'/wallets/' + ${wallet.id} + '/transactions/show'}">View All Transactions</a>
+<h3>Recent Transactions </h3>
+<table border="1" width="80%" >
+    <thead border="2">
+    <th>Transaction Date & Time</th>
+    <th>Transaction Type</th>
+    <th>Amount</th>
+    <th>Remarks</th>
+    </thead>
+    <tbody>
+    <tr th:each="transaction : ${recentTransactions}">
+        <td th:text="${#calendars.format(transaction.createdAt)}"></td>
+        <td th:text="${#strings.capitalize(transaction.transactionType)}"></td>
+        <td th:text="${transaction.amount}"></td>
+        <td th:text="${transaction.remarks}"></td>
+    </tbody>
+</table>
 </body>
 </html>

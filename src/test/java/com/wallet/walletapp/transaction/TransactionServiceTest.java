@@ -66,10 +66,10 @@ class TransactionServiceTest {
         createDebitTransactions(savedWallet);
         List<Transaction> transactions = transactionService().findTransaction(savedWallet.getId());
 
-        assertEquals(50,transactions.get(0).getAmount());
-        assertEquals(TransactionType.DEBIT,transactions.get(0).getTransactionType());
-        assertEquals(100,transactions.get(1).getAmount());
+        assertEquals(50,transactions.get(1).getAmount());
         assertEquals(TransactionType.DEBIT,transactions.get(1).getTransactionType());
+        assertEquals(100,transactions.get(0).getAmount());
+        assertEquals(TransactionType.DEBIT,transactions.get(0).getTransactionType());
     }
 
     private WalletService walletService() {
