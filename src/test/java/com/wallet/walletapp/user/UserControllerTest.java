@@ -31,16 +31,4 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/signup"));
     }
-    @Test
-    void shouldCreateNewUser() throws Exception{
-        mockMvc.perform(post("/users")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("userName","test-user-1")
-                .param("password", "foobar"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/login"));
-        ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
-        verify(userService).create(argument.capture());
-        assertEquals("userName", argument.getValue().getUserName());
-    }
 }
