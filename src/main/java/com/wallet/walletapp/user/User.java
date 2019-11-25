@@ -5,6 +5,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usertable")
@@ -15,9 +19,11 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Username cannot be null")
     private String userName;
 
     @Column(nullable = false)
+    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

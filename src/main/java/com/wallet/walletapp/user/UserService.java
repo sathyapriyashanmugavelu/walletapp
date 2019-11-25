@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
@@ -28,8 +30,9 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public User findUserByUsername(String username) {
-        return userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUserName(username);
+                //.orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public User create(User user) {
@@ -39,6 +42,4 @@ public class UserService implements UserDetailsService {
         walletService.create(wallet);
         return savedUser;
     }
-
-
 }
