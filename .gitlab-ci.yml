@@ -5,7 +5,7 @@ stages:
 
 image: gradle:5.3.0-jdk11
 build:
-  stage: test
+  stage: build
   script:
     - gradle build
   artifacts:
