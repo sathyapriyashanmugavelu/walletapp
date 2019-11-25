@@ -129,15 +129,14 @@ class TransactionServiceTest {
         Wallet wallet = createWallet();
         List<Transaction> transactions = new ArrayList<>();
         Transaction testTransaction = creditTransaction(50L, wallet);
-        testTransaction.setCreatedAt(new Date(119, 10,25));
+        testTransaction.setCreatedAt(new Date(Date.UTC(119, 10, 25, 0, 0, 0)));
         transactions.add(testTransaction);
 
         TransactionService transactionService = transactionService();
         List<Transaction> transactionWithDateFormat = transactionService.addISTDateFormat(transactions);
 
         String formatDate =  transactionWithDateFormat.get(0).getcreatedAtISTFormat();
-        assertEquals(formatDate, formatDate);
-        //assertEquals("Nov 25 2019T00:00:00 IST", formatDate);
+        assertEquals("Nov 25 2019T05:30:00 IST", formatDate);
     }
 
     @Test
