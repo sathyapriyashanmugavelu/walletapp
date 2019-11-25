@@ -6,6 +6,9 @@
     <title>Wallet</title>
 </head>
 <body>
+<form  align="right" th:action="@{/logout}" method="post">
+    <input style="font-size:60px" type="submit" value="Logout"/>
+</form>
 <h2 th:text="'Your balance is ' + ${wallet.balance}"></h2>
 <a th:href="@{'/wallets/' + ${wallet.id} + '/transactions/new'}">Add Money</a>
 <br>

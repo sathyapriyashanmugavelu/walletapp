@@ -5,6 +5,9 @@
     <title>Transaction History</title>
 </head>
 <body>
+<form  align="right" th:action="@{/logout}" method="post">
+    <input style="font-size:60px" type="submit" value="Logout"/>
+</form>
 <a th:href="@{'/wallets/'+${walletId}}">Back to Dashboard</a>
 
 <br>
