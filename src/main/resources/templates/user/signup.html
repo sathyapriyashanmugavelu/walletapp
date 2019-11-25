@@ -5,14 +5,12 @@
     <title>Sign Up</title>
 </head>
 <body>
-<form method="post" th:action="@{/users/new}" th:object="${user}">
+<form method="post" th:action="@{/user/new}" th:object="${user}">
     Username:
     <input th:field="*{userName}" type="text"/></br>
-    <span style="color:red" class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
     <h5 style="color:red" th:text ="${userAlreadyAvailable}"></h5>
     Password:
     <input th:field="*{password}" type="password"/></br>
-    <span style="color:red" class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></br>
     <input type="submit" value="Submit"/></br>
 </form>
 </body>

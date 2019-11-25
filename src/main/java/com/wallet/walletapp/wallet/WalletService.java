@@ -19,4 +19,9 @@ public class WalletService {
     public Wallet create(Wallet wallet) {
         return walletRepository.save(wallet);
     }
+
+    public Wallet findWalletForUser(long userId){
+        return walletRepository.findByUserId(userId);
+
+    }
 }

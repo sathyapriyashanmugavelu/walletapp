@@ -24,8 +24,8 @@ public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users/new").permitAll()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers("/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/new").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

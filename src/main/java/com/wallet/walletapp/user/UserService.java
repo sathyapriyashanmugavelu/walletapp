@@ -19,6 +19,10 @@ public class UserService implements UserDetailsService {
     @Autowired
     WalletService walletService;
 
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -36,10 +40,8 @@ public class UserService implements UserDetailsService {
     }
 
     public User create(User user) {
+        user.createWallet();
         User savedUser = userRepository.save(user);
-        Wallet wallet = new Wallet(0L);
-        wallet.setUser(savedUser);
-        walletService.create(wallet);
         return savedUser;
     }
 }

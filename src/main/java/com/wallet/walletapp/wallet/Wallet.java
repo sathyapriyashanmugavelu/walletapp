@@ -28,6 +28,9 @@ public class Wallet {
         this.balance = balance;
     }
 
+    public Wallet(long id,long balance) {
+    }
+
     public Long getBalance() {
         return balance;
     }

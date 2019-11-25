@@ -19,15 +19,19 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "Username cannot be null")
     private String userName;
 
     @Column(nullable = false)
-    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Wallet wallet;
+
+    public User(long id, String userName, String password) {
+        this.id = id;
+        this.userName = userName;
+        setPassword(password);
+    }
 
     public User(String userName, String password) {
         this.userName = userName;
@@ -55,6 +59,13 @@ public class User {
 
     Long getId() {
         return id;
+    }
+
+    Wallet createWallet(){
+        Wallet wallet = new Wallet(0L);
+        wallet.setUser(this);
+        this.wallet = wallet;
+        return wallet;
     }
 
     public Long walletId() {
