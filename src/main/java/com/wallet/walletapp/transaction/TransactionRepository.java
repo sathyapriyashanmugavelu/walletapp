@@ -10,6 +10,6 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findByWalletId(Long walletId);
 
-    @Query(value = "SELECT * FROM transaction WHERE wallet_id = ?1 LIMIT 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM transaction WHERE wallet_id = ?1 order by created_at desc LIMIT 5", nativeQuery = true)
     List<Transaction> getRecentByWalletId(Long walletId);
 }
