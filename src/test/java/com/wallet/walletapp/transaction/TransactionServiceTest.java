@@ -31,11 +31,11 @@ class TransactionServiceTest {
     void shouldCreateDebitTransaction() throws Exception {
         Wallet savedWallet = createWallet();
         TransactionService transactionService = transactionService();
-        Transaction savedTransaction = transactionService.create(debitTransaction(50L, savedWallet), savedWallet.getId());
+        Transaction savedTransaction = transactionService.create(creditTransaction(50L, savedWallet), savedWallet.getId());
 
 //        TODO: Also Assert on wallet.getTransctions()
         assertNotNull(savedTransaction);
-        assertEquals(TransactionType.DEBIT, savedTransaction.getTransactionType());
+        assertEquals(TransactionType.CREDIT, savedTransaction.getTransactionType());
     }
 
     @Test
@@ -43,7 +43,7 @@ class TransactionServiceTest {
         Wallet savedWallet = createWallet();
         TransactionService transactionService = transactionService();
 
-        transactionService.create(debitTransaction(50L, savedWallet), savedWallet.getId());
+        transactionService.create(creditTransaction(50L, savedWallet), savedWallet.getId());
 
         savedWallet = walletService().fetch(savedWallet.getId());
         assertEquals(150L, savedWallet.getBalance());
@@ -53,11 +53,11 @@ class TransactionServiceTest {
     void fetchATransactions() throws WalletNotFoundException {
         Wallet savedWallet = createWallet();
         TransactionService transactionService = transactionService();
-        transactionService.create(debitTransaction(50L, savedWallet),savedWallet.getId());
+        transactionService.create(creditTransaction(50L, savedWallet),savedWallet.getId());
         List<Transaction> transactions =transactionService.findTransaction(savedWallet.getId());
 
         assertEquals(50,transactions.get(0).getAmount());
-        assertEquals(TransactionType.DEBIT,transactions.get(0).getTransactionType());
+        assertEquals(TransactionType.CREDIT,transactions.get(0).getTransactionType());
     }
 
     @Test
@@ -67,9 +67,9 @@ class TransactionServiceTest {
         List<Transaction> transactions = transactionService().findTransaction(savedWallet.getId());
 
         assertEquals(50,transactions.get(1).getAmount());
-        assertEquals(TransactionType.DEBIT,transactions.get(1).getTransactionType());
+        assertEquals(TransactionType.CREDIT,transactions.get(1).getTransactionType());
         assertEquals(100,transactions.get(0).getAmount());
-        assertEquals(TransactionType.DEBIT,transactions.get(0).getTransactionType());
+        assertEquals(TransactionType.CREDIT,transactions.get(0).getTransactionType());
     }
 
     private WalletService walletService() {
@@ -85,14 +85,14 @@ class TransactionServiceTest {
     }
 
     private void createDebitTransactions(Wallet wallet) {
-        transactionRepository.save(debitTransaction(50L, wallet));
-        transactionRepository.save(debitTransaction(100L, wallet));
+        transactionRepository.save(creditTransaction(50L, wallet));
+        transactionRepository.save(creditTransaction(100L, wallet));
     }
 
-    private Transaction debitTransaction(Long amount, Wallet wallet) {
+    private Transaction creditTransaction(Long amount, Wallet wallet) {
         Transaction newTransaction = new Transaction();
         newTransaction.setAmount(amount);
-        newTransaction.setTransactionType(TransactionType.DEBIT);
+        newTransaction.setTransactionType(TransactionType.CREDIT);
         newTransaction.setWallet(wallet);
         return newTransaction;
     }

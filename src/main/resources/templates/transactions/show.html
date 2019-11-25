@@ -18,14 +18,16 @@
 <h3>Transaction History</h3>
 <table border="1" width="80%" >
     <thead border="2">
-    <th>Transaction Date & Time</th>
+    <!-- <th>Transaction Date & Time</th> -->
+    <th>Transaction Date & Time IST</th>
     <th>Transaction Type</th>
     <th>Amount</th>
     <th>Remarks</th>
     </thead>
     <tbody>
     <tr th:each="eachTransaction : ${transaction}">
-        <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td>
+        <!-- <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td> -->
+        <td th:text="${eachTransaction.getcreatedAtISTFormat()}"></td>
         <td th:text="${#strings.capitalizeWords(eachTransaction.transactionType)}"></td>
         <td th:text="${eachTransaction.amount}"></td>
         <td th:text="${eachTransaction.remarks}"></td>

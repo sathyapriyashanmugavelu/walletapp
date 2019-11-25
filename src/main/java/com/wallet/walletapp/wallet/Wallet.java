@@ -36,7 +36,7 @@ public class Wallet {
         return id;
     }
 
-    public void debit(Long amount) {
+    public void credit(Long amount) {
         balance += amount;
     }
 

@@ -3,7 +3,6 @@ package com.wallet.walletapp.transaction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wallet.walletapp.wallet.Wallet;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -29,6 +28,9 @@ public class Transaction {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
+
+    @Transient
+    private String createdAtISTFormat;
 
 
     public Transaction() {
@@ -80,10 +82,18 @@ public class Transaction {
     }
 
     void process() {
-        wallet.debit(amount);
+        wallet.credit(amount);
     }
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public String getcreatedAtISTFormat() {
+        return this.createdAtISTFormat;
+    }
+
+    public void setCreatedAtISTFormat(String createdAtISTFormat) {
+        this.createdAtISTFormat = createdAtISTFormat;
     }
 }
