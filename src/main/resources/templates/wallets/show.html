@@ -13,7 +13,14 @@
 <a th:href="@{'/wallets/' + ${wallet.id} + '/transactions/new'}">Add Money</a>
 <br>
 <a th:href="@{'/wallets/' + ${wallet.id} + '/transactions/show'}">View All Transactions</a>
-<h3>Recent Transactions </h3>
+
+<p th:if="${recentTransactions.empty}">
+    No Transactions have been performed on this wallet
+</p>
+
+<div th:unless="${recentTransactions.empty}">
+
+    <h3>Recent Transactions </h3>
 <table border="1" width="80%" >
     <thead border="2">
     <th>Transaction Date & Time</th>
@@ -30,5 +37,6 @@
         <td th:text="${transaction.remarks}"></td>
     </tbody>
 </table>
+</div>
 </body>
 </html>
