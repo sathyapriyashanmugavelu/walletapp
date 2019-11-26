@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+<div th:utext="${userName}"></div>
+<div style="width:100px;height:100px;" th:utext="${imagetag}"></div>
+</body>
+</html>

@@ -1,14 +1,20 @@
 package com.wallet.walletapp.user;
 
+import com.wallet.walletapp.user.avatar.CloudinaryService;
+import com.wallet.walletapp.user.avatar.CloudinarySetup;
 import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
 import java.util.Optional;
+
+
 
 @Controller
 public class UserController {
@@ -17,6 +23,9 @@ public class UserController {
 
     @Autowired
     WalletService walletService;
+
+    @Autowired
+    private Environment environment;
 
     @RequestMapping("/signup")
     String newUser(Model model) {
@@ -35,5 +44,15 @@ public class UserController {
         }
         userService.create(user);
         return "redirect:/login";
+    }
+
+   @RequestMapping("/userprofile")
+    String get(Model model) {
+        CloudinaryService cloudinaryService=new CloudinaryService();
+        String defaultAvatar=this.environment.getProperty("user.avatar.default");
+        String imageTag=cloudinaryService.getFile(defaultAvatar);
+        model.addAttribute("userName", "Sathya");
+        model.addAttribute("imagetag", imageTag);
+        return "user/profile";
     }
 }

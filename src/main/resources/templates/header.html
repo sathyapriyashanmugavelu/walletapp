@@ -7,7 +7,7 @@
 <div th:fragment="headerFragment">
     <p style="float: right;">
     <form  align="right" th:action="@{/logout}" method="post">
-        <a href=""#><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
+        <a th:href="@{/userprofile}"><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
         <input style="font-size:60px" type="submit" value="Logout"/>
     </form>
     </p>
