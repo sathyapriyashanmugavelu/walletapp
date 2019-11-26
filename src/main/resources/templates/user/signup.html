@@ -5,7 +5,7 @@
     <title>Sign Up</title>
 </head>
 <body>
-<form method="post" th:action="@{/user/new}" th:object="${user}">
+<form method="post" th:action="@{/users}" th:object="${user}">
     Username:
     <input th:field="*{userName}" type="text"/></br>
     <h5 style="color:red" th:text ="${userAlreadyAvailable}"></h5>
