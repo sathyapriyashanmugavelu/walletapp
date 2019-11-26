@@ -8,5 +8,8 @@
 </head>
 
 <body>
+<form  align="right" th:action="@{/logout}" method="post">
+    <input style="font-size:60px" type="submit" value="Logout"/>
+</form>
     <h1 th:text="${greetMessage}"></h1>
 </body>

@@ -5,6 +5,9 @@
     <title>Transactions</title>
 </head>
 <body>
+<form  align="right" th:action="@{/logout}" method="post">
+    <input style="font-size:60px" type="submit" value="Logout"/>
+</form>
 <form action="#" th:action="@{'/wallets/'+${walletId}+'/transactions'}" th:object="${transaction}" method="post">
     <div>
         <p>Add Money: <input type="text" th:field="*{amount}" id="amount"/></p>

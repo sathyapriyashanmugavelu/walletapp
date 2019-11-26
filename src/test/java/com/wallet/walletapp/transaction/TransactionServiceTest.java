@@ -9,10 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @DataJpaTest
 class TransactionServiceTest {
@@ -96,4 +100,65 @@ class TransactionServiceTest {
         newTransaction.setWallet(wallet);
         return newTransaction;
     }
+
+    @Test
+    void shouldReturnTheRecent5TransactionsOnly(){
+        Wallet wallet = createWallet();
+        transactionRepository.save(creditTransaction(100L, wallet));
+        transactionRepository.save(creditTransaction(200L, wallet));
+        transactionRepository.save(creditTransaction(300L, wallet));
+        transactionRepository.save(creditTransaction(400L, wallet));
+        transactionRepository.save(creditTransaction(500L, wallet));
+        transactionRepository.save(creditTransaction(600L, wallet));
+
+        TransactionService transactionService = transactionService();
+        List<Transaction> recentTransactions = transactionService.getRecentTransactions(wallet.getId());
+        assertEquals(5, recentTransactions.size());
+
+        // for(Transaction transaction : recentTransactions){
+        //     if(transaction.getAmount() == 100L)
+        //     {
+        //         fail();
+        //     }
+        // }
+
+    }
+
+    @Test
+    void shouldSetDateFormat() throws Exception {
+        Wallet wallet = createWallet();
+        List<Transaction> transactions = new ArrayList<>();
+        Transaction testTransaction = creditTransaction(50L, wallet);
+        testTransaction.setCreatedAt(new Date(Date.UTC(119, 10, 25, 0, 0, 0)));
+        transactions.add(testTransaction);
+
+        TransactionService transactionService = transactionService();
+        List<Transaction> transactionWithDateFormat = transactionService.addISTDateFormat(transactions);
+
+        String formatDate =  transactionWithDateFormat.get(0).getcreatedAtISTFormat();
+        assertEquals("Nov 25 2019T05:30:00 IST", formatDate);
+    }
+
+    @Test
+    void shouldSortTransactions(){
+
+        Wallet wallet = createWallet();
+
+        List<Transaction> transactions = new ArrayList<>();
+        Transaction testTransaction1 = creditTransaction(100L, wallet);
+        testTransaction1.setCreatedAt(new Date(119, 10, 22));
+        transactions.add(testTransaction1);
+
+        Transaction testTransaction2 = creditTransaction(200L, wallet);
+        testTransaction2.setCreatedAt(new Date(119, 10, 25));
+        transactions.add(testTransaction2);
+
+        TransactionService transactionService = transactionService();
+        List<Transaction> sortedTransactions = transactionService.sortTransactions(transactions);
+
+        assertEquals(200L, sortedTransactions.get(0).getAmount());
+        assertEquals(100L, sortedTransactions.get(1).getAmount());
+
+    }
+
 }

@@ -1,14 +1,20 @@
+stages:
+  - build
+  - staging
+  - production
+
 image: gradle:5.3.0-jdk11
 build:
-  stage: test
+  stage: build
   script:
     - gradle build
   artifacts:
     expire_in: 1 week
     reports:
       junit: build/test-results/test/TEST-*.xml
-stg-deploy:
-  stage: deploy
+
+staging:
+  stage: staging
   image: ruby:latest
   script:
     - apt-get update -qy
@@ -17,9 +23,9 @@ stg-deploy:
     - dpl --provider=heroku --app=wallet-app-stage --api-key=$HEROKU_API_KEY
   only:
     - master
-  when : manual
-stg-prod:
-  stage: deploy
+
+production:
+  stage: production
   image: ruby:latest
   script:
     - apt-get update -qy

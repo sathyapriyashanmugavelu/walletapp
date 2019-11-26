@@ -47,22 +47,8 @@ class TransactionController {
     @RequestMapping("/show")
     String showTransaction(@PathVariable long walletId,Model model){
         List<Transaction> transactions = transactionService.findTransaction(walletId);
-        for (Transaction transaction : transactions)
-        {
-            Date createdAt = transaction.getCreatedAt();
-            Calendar ist = Calendar.getInstance(TimeZone.getTimeZone("IST"));
-            ist.setTime(createdAt);
-            String istFormat = formatTime(ist);
-            transaction.setCreatedAtISTFormat(istFormat);
-        }
         model.addAttribute("walletId", walletId);
         model.addAttribute("transaction", transactions);
         return "transactions/show";
-    }
-
-    private static String formatTime(Calendar cal) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX zzz");
-        sdf.setCalendar(cal);
-        return sdf.format(cal.getTime());
     }
 }
