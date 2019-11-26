@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang=“en” xmlns:th=“http://www.thymeleaf.org”>
 <head>
-    <meta charset="UTF-8">
     <title>Header of the page</title>
 </head>
 <body>
-<div th:fragment="head">
-    <a th:href="@{'/logout'}">LOGOUT</a>
-</div >
-
+<div th:fragment="headerFragment">
+    <p style="float: right;">
+    <form  align="right" th:action="@{/logout}" method="post">
+        <a href=""#><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
+        <input style="font-size:60px" type="submit" value="Logout"/>
+    </form>
+    </p>
+    </form>
+</div>
 </body>
 </html>

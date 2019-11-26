@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+<head th:include="header :: headerFragment">
     <title>Wallet</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-<form  align="right" th:action="@{/logout}" method="post">
-    <input style="font-size:60px" type="submit" value="Logout"/>
-</form>
     <h1 th:text="${greetMessage}"></h1>
 </body>

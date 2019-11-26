@@ -33,6 +33,7 @@ dependencies {
 	compile 'org.postgresql:postgresql:42.2.5'
 	compile 'org.flywaydb:flyway-core'
 	compile group: 'org.projectlombok', name: 'lombok', version: '0.11.0'
+	compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
