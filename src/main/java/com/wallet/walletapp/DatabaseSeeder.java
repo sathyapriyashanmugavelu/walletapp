@@ -28,8 +28,8 @@ public class DatabaseSeeder {
                     userService.create(new User("seed-user-1", "foobar"));
 
                 }
-                if (repository.findByUserName("seed-user-2").isEmpty()) {
-                    userService.create(new User("seed-user-2", "foobar"));
+                if (repository.findByUserName("seed-user-3").isEmpty()) {
+                    userService.create(new User("seed-user-3", "foobar"));
                 }
             }
         };
