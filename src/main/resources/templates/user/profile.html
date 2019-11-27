@@ -5,7 +5,7 @@
     <title>User Profile</title>
 </head>
 <body>
-<div th:utext="${userName}"></div>
+<h1></h1><div th:text="${#authentication.getPrincipal().getUsername()}"></div></h1>
 <div style="width:100px;height:100px;" th:utext="${imagetag}"></div>
 </body>
 </html>
