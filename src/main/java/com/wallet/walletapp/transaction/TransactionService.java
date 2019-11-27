@@ -6,6 +6,7 @@ import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -69,5 +70,25 @@ public class TransactionService {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
         sdf.setCalendar(ist);
         return sdf.format(ist.getTime());
+    }
+
+    public List<Transaction> getFilteredTransactions(Long walletId, String  fromDate, String  toDate) {
+        Date fromDateValue = dateFormat(fromDate);
+        Date toDateValue=dateFormat(toDate);
+
+        List<Transaction> transactions = transactionRepository.getFilterTransaction(walletId,fromDateValue,toDateValue);
+        List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
+        List<Transaction> sortedTransactions = sortTransactions(transactionsWithDateFormat);
+        return sortedTransactions;
+    }
+
+    private Date dateFormat(String dateValue){
+        Date convertedDate=null;
+        try {
+            convertedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
     }
 }

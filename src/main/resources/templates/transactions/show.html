@@ -6,8 +6,15 @@
 </head>
 <body>
 <a th:href="@{'/dashboard'}">Back to Dashboard</a>
-
 <br>
+<br>
+<form action="#" th:action="@{'/dashboard/transactions/filter'}" method="post">
+    Get Transactions (YYYY-MM-DD):
+    <input name = "fromDate" type="date" />
+    to
+    <input name = "toDate" type="date"/>
+    <input type="submit" value="Submit"/>
+</form>
 <br>
 
 <h3>Transaction History</h3>

@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -64,6 +61,15 @@ class TransactionController {
     String showTransaction(Model model){
         Wallet wallet = walletService.findWalletForUser(userService.getCurrentUserId());
         List<Transaction> transactions = transactionService.findTransaction(wallet.getId());
+        model.addAttribute("walletId", wallet.getId());
+        model.addAttribute("transaction", transactions);
+        return "transactions/show";
+    }
+
+    @PostMapping("/filter")
+    String showFilteredTransaction(@RequestParam("fromDate") String  fromDate, @RequestParam("toDate") String  toDate, Model model){
+        Wallet wallet = walletService.findWalletForUser(userService.getCurrentUserId());
+        List<Transaction> transactions = transactionService.getFilteredTransactions(wallet.getId(),fromDate,toDate);
         model.addAttribute("walletId", wallet.getId());
         model.addAttribute("transaction", transactions);
         return "transactions/show";
