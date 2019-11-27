@@ -95,8 +95,8 @@ public class TransactionService {
     }
 
     public List<Transaction> getFilteredTransactions(Long walletId, String fromDate, String toDate) {
-        Date fromDateValue = dateFormat(fromDate);
-        Date toDateValue = dateFormat(toDate);
+        Date fromDateValue = dateFormat(fromDate, "00:00:00");
+        Date toDateValue = dateFormat(toDate, "23:59:59");
 
         List<Transaction> transactions = transactionRepository.getFilterTransaction(walletId, fromDateValue, toDateValue);
         List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
@@ -104,10 +104,10 @@ public class TransactionService {
         return sortedTransactions;
     }
 
-    private Date dateFormat(String dateValue) {
+    private Date dateFormat(String dateValue, String time) {
         Date convertedDate = null;
         try {
-            convertedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+            convertedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateValue + " " + time);
         } catch (ParseException e) {
             e.printStackTrace();
         }

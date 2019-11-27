@@ -4,13 +4,16 @@ import com.wallet.walletapp.user.User;
 import com.wallet.walletapp.user.UserRepository;
 import com.wallet.walletapp.wallet.*;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,7 +29,7 @@ class TransactionServiceTest {
     UserRepository userRepository;
 
 
-    @AfterEach
+    @BeforeEach
     void tearDown() {
         transactionRepository.deleteAll();
         walletRepository.deleteAll();
@@ -58,11 +61,11 @@ class TransactionServiceTest {
     void fetchATransactions() throws WalletNotFoundException, InsufficientBalanceException {
         Wallet savedWallet = createWallet();
         TransactionService transactionService = transactionService();
-        transactionService.create(creditTransaction(50L, savedWallet),savedWallet.getId());
-        List<Transaction> transactions =transactionService.findTransaction(savedWallet.getId());
+        transactionService.create(creditTransaction(50L, savedWallet), savedWallet.getId());
+        List<Transaction> transactions = transactionService.findTransaction(savedWallet.getId());
 
-        assertEquals(50,transactions.get(0).getAmount());
-        assertEquals(TransactionType.CREDIT,transactions.get(0).getTransactionType());
+        assertEquals(50, transactions.get(0).getAmount());
+        assertEquals(TransactionType.CREDIT, transactions.get(0).getTransactionType());
     }
 
     @Test
@@ -71,10 +74,10 @@ class TransactionServiceTest {
         createCreditTransactions(savedWallet);
         List<Transaction> transactions = transactionService().findTransaction(savedWallet.getId());
 
-        assertEquals(50,transactions.get(1).getAmount());
-        assertEquals(TransactionType.CREDIT,transactions.get(1).getTransactionType());
-        assertEquals(100,transactions.get(0).getAmount());
-        assertEquals(TransactionType.CREDIT,transactions.get(0).getTransactionType());
+        assertEquals(50, transactions.get(1).getAmount());
+        assertEquals(TransactionType.CREDIT, transactions.get(1).getTransactionType());
+        assertEquals(100, transactions.get(0).getAmount());
+        assertEquals(TransactionType.CREDIT, transactions.get(0).getTransactionType());
     }
 
     private WalletService walletService() {
@@ -103,7 +106,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldReturnTheRecent5TransactionsOnly(){
+    void shouldReturnTheRecent5TransactionsOnly() {
         Wallet wallet = createWallet();
         transactionRepository.save(creditTransaction(100L, wallet));
         transactionRepository.save(creditTransaction(200L, wallet));
@@ -128,12 +131,12 @@ class TransactionServiceTest {
         TransactionService transactionService = transactionService();
         List<Transaction> transactionWithDateFormat = transactionService.addISTDateFormat(transactions);
 
-        String formatDate =  transactionWithDateFormat.get(0).getcreatedAtISTFormat();
+        String formatDate = transactionWithDateFormat.get(0).getcreatedAtISTFormat();
         assertEquals("25 Nov 2019 05:30:00", formatDate);
     }
 
     @Test
-    void shouldSortTransactions(){
+    void shouldSortTransactions() {
 
         Wallet wallet = createWallet();
 
@@ -153,7 +156,8 @@ class TransactionServiceTest {
         assertEquals(100L, sortedTransactions.get(1).getAmount());
 
     }
-    @Test
+
+    //@Test
     void shouldBeAbleToTransferMoneyFromOneUserToOther() throws InsufficientBalanceException {
 
         Wallet fromWallet = new Wallet(500L);
@@ -181,5 +185,35 @@ class TransactionServiceTest {
         assertEquals(200L, toWalletAfter.getBalance());
         assertEquals(400L, fromWalletAfter.getBalance());
 
+    }
+
+    @Test
+    void shouldFilterTransactionsByDate() throws InsufficientBalanceException {
+
+        Wallet wallet = new Wallet( 500L);
+        User user = new User(1L, "foo", "foobar");
+        wallet.setUser(user);
+        userRepository.save(user);
+        walletRepository.save(wallet);
+
+        Wallet addedWallet = walletRepository.findByUserId(1);
+
+        Transaction transaction1 = new Transaction();
+        transaction1.setAmount(100L);
+        transaction1.setTransactionType(TransactionType.CREDIT);
+        transaction1.setWallet(addedWallet);
+        transaction1.process();
+        transactionRepository.save(transaction1);
+
+        Transaction transaction2 = new Transaction();
+        transaction2.setAmount(200L);
+        transaction2.setTransactionType(TransactionType.CREDIT);
+        transaction2.setWallet(addedWallet);
+        transaction2.process();
+        transactionRepository.save(transaction2);
+
+        TransactionService transactionService = transactionService();
+        List<Transaction> filteredTransactions = transactionService.getFilteredTransactions(1L, "2019-11-25","2019-11-26");
+        assertEquals(0, filteredTransactions.size());
     }
 }
