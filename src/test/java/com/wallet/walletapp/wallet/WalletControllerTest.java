@@ -73,6 +73,5 @@ class WalletControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("recentTransactions", Matchers.equalTo(recentTransactions)))
                 .andExpect(view().name("wallets/show"));
-
     }
 }

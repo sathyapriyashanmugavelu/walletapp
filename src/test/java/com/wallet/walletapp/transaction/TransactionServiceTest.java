@@ -114,14 +114,6 @@ class TransactionServiceTest {
         TransactionService transactionService = transactionService();
         List<Transaction> recentTransactions = transactionService.getRecentTransactions(wallet.getId());
         assertEquals(5, recentTransactions.size());
-
-        // for(Transaction transaction : recentTransactions){
-        //     if(transaction.getAmount() == 100L)
-        //     {
-        //         fail();
-        //     }
-        // }
-
     }
 
     @Test

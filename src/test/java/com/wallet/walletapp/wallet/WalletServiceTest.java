@@ -1,5 +1,7 @@
 package com.wallet.walletapp.wallet;
 
+import com.wallet.walletapp.user.User;
+import com.wallet.walletapp.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class WalletServiceTest {
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @AfterEach
     void tearDown() {
@@ -43,5 +48,16 @@ class WalletServiceTest {
 
         assertNotNull(savedWallet);
         assertNotNull(savedWallet.getId());
+    }
+
+    @Test
+    void shouldGetWalletForAUser() {
+        User user = new User("test-user", "test1234");
+        userRepository.save(user);
+        Wallet savedWallet = walletRepository.save(new Wallet(100L));
+        savedWallet.setUser(user);
+        WalletService walletService = new WalletService(walletRepository);
+
+        assertEquals(savedWallet, walletService.findWalletForUser(user.getId()));
     }
 }
