@@ -29,6 +29,8 @@ public class Wallet {
     }
 
     public Wallet(long id,long balance) {
+        this.id = id;
+        this.balance = balance;
     }
 
     public Long getBalance() {

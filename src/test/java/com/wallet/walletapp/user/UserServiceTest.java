@@ -66,6 +66,7 @@ class UserServiceTest {
 
             assertNotNull(newUser);
             assertNotNull(newUser.getId());
+            assertNotNull(newUser.walletId());
         }
     }
 }

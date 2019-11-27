@@ -1,9 +1,8 @@
 package com.wallet.walletapp.user;
 
-import com.wallet.walletapp.wallet.Wallet;
-import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,9 +14,6 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    WalletService walletService;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -32,6 +28,20 @@ public class UserService implements UserDetailsService {
                 user.getPassword(),
                 AuthorityUtils.createAuthorityList()
         );
+    }
+
+    User getCurrentUser() {
+        Object springUserRaw = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((org.springframework.security.core.userdetails.User)springUserRaw).getUsername();
+        return findUserByUsername(username).get();
+    }
+
+    public String getUsernameForCurrentUser(){
+        return getCurrentUser().getUserName();
+    }
+
+    public long getCurrentUserId() {
+        return getCurrentUser().getId();
     }
 
     public Optional<User> findUserByUsername(String username) {

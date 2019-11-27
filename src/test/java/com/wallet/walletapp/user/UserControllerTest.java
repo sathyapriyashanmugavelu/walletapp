@@ -1,5 +1,6 @@
 package com.wallet.walletapp.user;
 
+import com.wallet.walletapp.user.avatar.AvatarService;
 import com.wallet.walletapp.wallet.Wallet;
 import com.wallet.walletapp.wallet.WalletService;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
@@ -24,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @WebMvcTest(UserController.class)
+@WithMockUser
 public class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -33,6 +36,9 @@ public class UserControllerTest {
 
     @MockBean
     WalletService walletService;
+
+    @MockBean
+    AvatarService avatarService;
 
     @Test
     void shouldDisplaySignUp() throws Exception {
@@ -72,4 +78,14 @@ public class UserControllerTest {
         assertEquals("test", argument.getValue().getUserName());
     }
 
+    @Test
+    void shouldShowDefaultAvatar() throws Exception {
+        when(avatarService.getFile(anyString())).thenReturn("imageurl");
+
+        mockMvc.perform(get("/userprofile"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("userName", "Sathya"))
+                .andExpect(model().attribute("imagetag", "imageurl"))
+                .andExpect(view().name("user/profile"));
+    }
 }

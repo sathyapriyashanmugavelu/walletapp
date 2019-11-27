@@ -57,7 +57,7 @@ public class User {
         this.password = PASSWORD_ENCODER.encode(password);
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
