@@ -10,12 +10,12 @@
 <br>
 <br>
 
+<h3>Transaction History</h3>
 <p th:if="${transaction.empty}">
     No Transactions have been performed on this wallet
 </p>
 
 <div th:unless="${transaction.empty}">
-<h3>Transaction History</h3>
 <table border="1" >
     <thead border="2">
     <!-- <th>Transaction Date & Time</th> -->

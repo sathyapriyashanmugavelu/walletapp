@@ -11,10 +11,6 @@
 <br>
 <a th:href="@{'/dashboard/transactions'}">View All Transactions</a>
 
-<p th:if="${recentTransactions.empty}">
-    No Transactions have been performed on this wallet
-</p>
-
 <div th:unless="${recentTransactions.empty}">
 
     <h3>Recent Transactions </h3>
