@@ -36,7 +36,7 @@ public class TransactionService {
     }
 
     public List<Transaction> findTransaction(Long walletId) {
-        List<Transaction> transactions=transactionRepository.findByWalletId(walletId);
+        List<Transaction> transactions = transactionRepository.findByWalletId(walletId);
         List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
         List<Transaction> sortedTransactions = sortTransactions(transactionsWithDateFormat);
         return sortedTransactions;
@@ -49,8 +49,7 @@ public class TransactionService {
         return sortedTransactions;
     }
 
-    public List<Transaction> sortTransactions(List<Transaction> transactions)
-    {
+    public List<Transaction> sortTransactions(List<Transaction> transactions) {
         transactions.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
         return transactions;
     }
@@ -72,18 +71,18 @@ public class TransactionService {
         return sdf.format(ist.getTime());
     }
 
-    public List<Transaction> getFilteredTransactions(Long walletId, String  fromDate, String  toDate) {
+    public List<Transaction> getFilteredTransactions(Long walletId, String fromDate, String toDate) {
         Date fromDateValue = dateFormat(fromDate);
-        Date toDateValue=dateFormat(toDate);
+        Date toDateValue = dateFormat(toDate);
 
-        List<Transaction> transactions = transactionRepository.getFilterTransaction(walletId,fromDateValue,toDateValue);
+        List<Transaction> transactions = transactionRepository.getFilterTransaction(walletId, fromDateValue, toDateValue);
         List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
         List<Transaction> sortedTransactions = sortTransactions(transactionsWithDateFormat);
         return sortedTransactions;
     }
 
-    private Date dateFormat(String dateValue){
-        Date convertedDate=null;
+    private Date dateFormat(String dateValue) {
+        Date convertedDate = null;
         try {
             convertedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
         } catch (ParseException e) {

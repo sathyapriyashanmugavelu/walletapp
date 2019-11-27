@@ -10,9 +10,9 @@
 <br>
 <form action="#" th:action="@{'/dashboard/transactions/filter'}" method="post">
     Get Transactions (YYYY-MM-DD):
-    <input name = "fromDate" type="date" />
+    <input name="fromDate" type="date"/>
     to
-    <input name = "toDate" type="date"/>
+    <input name="toDate" type="date"/>
     <input type="submit" value="Submit"/>
 </form>
 <br>
@@ -23,23 +23,23 @@
 </p>
 
 <div th:unless="${transaction.empty}">
-<table border="1" >
-    <thead border="2">
-    <!-- <th>Transaction Date & Time</th> -->
-    <th>Transaction Date & Time</th>
-    <th>Transaction Type</th>
-    <th>Amount (in Rs.)</th>
-    <th>Remarks</th>
-    </thead>
-    <tbody>
-    <tr th:each="eachTransaction : ${transaction}">
-        <!-- <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td> -->
-        <td style='width: 200px' th:text="${eachTransaction.getcreatedAtISTFormat()}"></td>
-        <td style='width: 120px' th:text="${#strings.capitalizeWords(eachTransaction.transactionType)}"></td>
-        <td style='width: 150px' th:text="${eachTransaction.amount}"></td>
-        <td style='width: 150px' th:text="${eachTransaction.remarks}"></td>
-    </tbody>
-</table>
+    <table border="1">
+        <thead border="2">
+        <!-- <th>Transaction Date & Time</th> -->
+        <th>Transaction Date & Time</th>
+        <th>Transaction Type</th>
+        <th>Amount (in Rs.)</th>
+        <th>Remarks</th>
+        </thead>
+        <tbody>
+        <tr th:each="eachTransaction : ${transaction}">
+            <!-- <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td> -->
+            <td style='width: 200px' th:text="${eachTransaction.getcreatedAtISTFormat()}"></td>
+            <td style='width: 120px' th:text="${#strings.capitalizeWords(eachTransaction.transactionType)}"></td>
+            <td style='width: 150px' th:text="${eachTransaction.amount}"></td>
+            <td style='width: 150px' th:text="${eachTransaction.remarks}"></td>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

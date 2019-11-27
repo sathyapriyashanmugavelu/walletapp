@@ -10,14 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.TimeZone;
 
 @Controller
 @RequestMapping("/dashboard/transactions")
@@ -40,10 +39,10 @@ class TransactionController {
         return "transactions/new";
     }
 
-    @PostMapping(params="submit")
+    @PostMapping(params = "submit")
     String create(@Valid @ModelAttribute Transaction transaction,
                   BindingResult bindingResult) throws WalletNotFoundException {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "transactions/new";
         }
         Wallet wallet = walletService.findWalletForUser(userService.getCurrentUserId());
@@ -51,14 +50,14 @@ class TransactionController {
         return "redirect:/dashboard";
     }
 
-    @PostMapping(params="cancel")
+    @PostMapping(params = "cancel")
     String cancelNewTransaction(@Valid @ModelAttribute Transaction transaction,
-                                BindingResult bindingResult){
+                                BindingResult bindingResult) {
         return "redirect:/dashboard";
     }
 
     @RequestMapping
-    String showTransaction(Model model){
+    String showTransaction(Model model) {
         Wallet wallet = walletService.findWalletForUser(userService.getCurrentUserId());
         List<Transaction> transactions = transactionService.findTransaction(wallet.getId());
         model.addAttribute("walletId", wallet.getId());
@@ -67,9 +66,9 @@ class TransactionController {
     }
 
     @PostMapping("/filter")
-    String showFilteredTransaction(@RequestParam("fromDate") String  fromDate, @RequestParam("toDate") String  toDate, Model model){
+    String showFilteredTransaction(@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate, Model model) {
         Wallet wallet = walletService.findWalletForUser(userService.getCurrentUserId());
-        List<Transaction> transactions = transactionService.getFilteredTransactions(wallet.getId(),fromDate,toDate);
+        List<Transaction> transactions = transactionService.getFilteredTransactions(wallet.getId(), fromDate, toDate);
         model.addAttribute("walletId", wallet.getId());
         model.addAttribute("transaction", transactions);
         return "transactions/show";
