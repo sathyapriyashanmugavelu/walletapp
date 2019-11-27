@@ -1,6 +1,8 @@
 package com.wallet.walletapp.transaction;
 
 import com.wallet.walletapp.user.UserService;
+import com.wallet.walletapp.wallet.Wallet;
+import com.wallet.walletapp.wallet.WalletService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.isA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,9 +34,14 @@ class TransactionControllerTest {
     @MockBean
     UserService userService;
 
+    @MockBean
+    WalletService walletService;
+
     @Test
     void shouldShowNewTransaction() throws Exception {
-        mockMvc.perform(post("/wallets/1/transactions/new").with(csrf()))
+        Wallet wallet = new Wallet(1,0);
+        when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
+        mockMvc.perform(post("/wallet/transactions/new").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("transaction", isA(Transaction.class)))
                 .andExpect(view().name("transactions/new"));
@@ -41,12 +49,14 @@ class TransactionControllerTest {
 
     @Test
     void shouldCreateTransaction() throws Exception {
-        mockMvc.perform(post("/wallets/1/transactions").with(csrf())
+        Wallet wallet = new Wallet(1,0);
+        when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
+        mockMvc.perform(post("/wallet/transactions").with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("amount", "100")
                 .param("remarks", "rent"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/wallets/1"));
+                .andExpect(view().name("redirect:/wallet"));
 
         ArgumentCaptor<Transaction> argument = ArgumentCaptor.forClass(Transaction.class);
         verify(transactionService).create(argument.capture(), eq(1L));
@@ -56,7 +66,9 @@ class TransactionControllerTest {
 
     @Test
     void shouldShowViewAllTransactions() throws Exception {
-        mockMvc.perform(post("/wallets/1/transactions/show").with(csrf()))
+        Wallet wallet = new Wallet(1,0);
+        when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
+        mockMvc.perform(post("/wallet/transactions/show").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("transactions/show"));
     }

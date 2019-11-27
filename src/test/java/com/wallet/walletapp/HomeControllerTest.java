@@ -24,15 +24,7 @@ class HomeControllerTest {
     @Test
     void shouldDisplayGreet() throws Exception {
         mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("home"));
-    }
-
-    @Test
-    void shouldDisplayGreetWithName() throws Exception {
-        mockMvc.perform(get("/?name=test&walletId=1"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("greetMessage", "Hello test"))
-                .andExpect(view().name("home"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/wallet"));
     }
 }

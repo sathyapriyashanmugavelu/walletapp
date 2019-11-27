@@ -5,7 +5,7 @@
     <title>Transactions</title>
 </head>
 <body>
-<form action="#" th:action="@{'/wallets/'+${walletId}+'/transactions'}" th:object="${transaction}" method="post">
+<form action="#" th:action="@{'/wallet/transactions'}" th:object="${transaction}" method="post">
     <div>
         <p>Add Money: <input type="text" th:field="*{amount}" id="amount"/></p>
         <p>Remarks: <input type="text" th:field="*{remarks}" id="remarks"/></div></p>
