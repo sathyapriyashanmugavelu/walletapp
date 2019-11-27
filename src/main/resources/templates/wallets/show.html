@@ -6,10 +6,10 @@
 </head>
 <body>
 <h1 th:text="${greetMessage}"></h1>
-<h2 th:text="'Your balance is ' + ${wallet.balance}"></h2>
-<a th:href="@{'/wallet/transactions/new'}">Add Money</a>
+<h2 th:text="'Your balance is Rs. ' + ${wallet.balance}"></h2>
+<a th:href="@{'/dashboard/transactions/new'}">Add Money</a>
 <br>
-<a th:href="@{'/wallet/transactions/show'}">View All Transactions</a>
+<a th:href="@{'/dashboard/transactions'}">View All Transactions</a>
 
 <p th:if="${recentTransactions.empty}">
     No Transactions have been performed on this wallet
@@ -18,20 +18,20 @@
 <div th:unless="${recentTransactions.empty}">
 
     <h3>Recent Transactions </h3>
-<table border="1" width="80%" >
+<table border="1">
     <thead border="2">
     <th>Transaction Date & Time</th>
     <th>Transaction Type</th>
-    <th>Amount</th>
+    <th>Amount (in Rs.)</th>
     <th>Remarks</th>
     </thead>
     <tbody>
     <tr th:each="transaction : ${recentTransactions}">
         <!-- <td th:text="${#calendars.format(transaction.createdAt)}"></td> -->
-        <td th:text="${transaction.getcreatedAtISTFormat()}"></td>
-        <td th:text="${#strings.capitalize(transaction.transactionType)}"></td>
-        <td th:text="${transaction.amount}"></td>
-        <td th:text="${transaction.remarks}"></td>
+        <td style='width: 200px' th:text="${transaction.getcreatedAtISTFormat()}"></td>
+        <td style='width: 120px' th:text="${#strings.capitalize(transaction.transactionType)}"></td>
+        <td style='width: 150px' th:text="${transaction.amount}"></td>
+        <td style='width: 150px' th:text="${transaction.remarks}"></td>
     </tbody>
 </table>
 </div>

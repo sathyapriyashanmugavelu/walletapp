@@ -41,7 +41,7 @@ class TransactionControllerTest {
     void shouldShowNewTransaction() throws Exception {
         Wallet wallet = new Wallet(1,0);
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
-        mockMvc.perform(post("/wallet/transactions/new").with(csrf()))
+        mockMvc.perform(post("/dashboard/transactions/new").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("transaction", isA(Transaction.class)))
                 .andExpect(view().name("transactions/new"));
@@ -51,7 +51,7 @@ class TransactionControllerTest {
     void shouldCreateTransaction() throws Exception {
         Wallet wallet = new Wallet(1,0);
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
-        mockMvc.perform(post("/wallet/transactions").with(csrf())
+        mockMvc.perform(post("/dashboard/transactions").with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("amount", "100")
                 .param("remarks", "rent"))
@@ -68,7 +68,7 @@ class TransactionControllerTest {
     void shouldShowViewAllTransactions() throws Exception {
         Wallet wallet = new Wallet(1,0);
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
-        mockMvc.perform(post("/wallet/transactions/show").with(csrf()))
+        mockMvc.perform(post("/dashboard/transactions").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("transactions/show"));
     }

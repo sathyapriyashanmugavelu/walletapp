@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 @Controller
-@RequestMapping("/wallet/transactions")
+@RequestMapping("/dashboard/transactions")
 class TransactionController {
     @Autowired
     TransactionService transactionService;
@@ -43,7 +43,7 @@ class TransactionController {
         return "transactions/new";
     }
 
-    @PostMapping
+    @PostMapping(params="submit")
     String create(@Valid @ModelAttribute Transaction transaction,
                   BindingResult bindingResult) throws WalletNotFoundException {
         if(bindingResult.hasErrors()) {
@@ -51,10 +51,16 @@ class TransactionController {
         }
         Wallet wallet = walletService.findWalletForUser(userService.getCurrentUserId());
         transactionService.create(transaction, wallet.getId());
-        return "redirect:/wallet";
+        return "redirect:/dashboard";
     }
 
-    @RequestMapping("/show")
+    @PostMapping(params="cancel")
+    String cancelNewTransaction(@Valid @ModelAttribute Transaction transaction,
+                                BindingResult bindingResult){
+        return "redirect:/dashboard";
+    }
+
+    @RequestMapping
     String showTransaction(Model model){
         Wallet wallet = walletService.findWalletForUser(userService.getCurrentUserId());
         List<Transaction> transactions = transactionService.findTransaction(wallet.getId());

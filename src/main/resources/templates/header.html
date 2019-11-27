@@ -5,13 +5,17 @@
 </head>
 <body>
 <div th:fragment="headerFragment">
+    <div style="background-color:cadetblue">
+    <h2 align="center">Wallet App</h2>
     <p style="float: right;">
     <form  align="right" th:action="@{/logout}" method="post">
-        <a th:href="@{/userprofile}"><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
+        <b><a th:href="@{/userprofile}"><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a></b>
         <input style="font-size:60px" type="submit" value="Logout"/>
     </form>
+        <br>
     </p>
     </form>
+    </div>
 </div>
 </body>
 </html>

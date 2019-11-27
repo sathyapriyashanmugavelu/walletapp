@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:include="header :: headerFragment">
     <meta charset="UTF-8">
     <title>Transactions</title>
 </head>
 <body>
-<form action="#" th:action="@{'/wallet/transactions'}" th:object="${transaction}" method="post">
-    <div>
-        <p>Add Money: <input type="text" th:field="*{amount}" id="amount"/></p>
-        <p>Remarks: <input type="text" th:field="*{remarks}" id="remarks"/></div></p>
-    <input type="submit">
-    </div>
-
-    <div>
-        <span class="error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
-    </div>
+<a th:href="@{'/dashboard'}">Back to Dashboard</a>
+<br>
+<form th:action="@{'/dashboard/transactions'}" th:object="${transaction}" method="post">
+        <p><label>Amount : </label><input th:required="required" type="text" th:field="*{amount}" id="amount"/></p>
+        <p th:style="'color:red'"><span class="error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span></p>
+        <p><label>Remarks : </label><input type="text" th:field="*{remarks}" id="remarks"/></div></p>
+    <br>
+    <input type="submit" name="submit" value="Add to Wallet"></input>
+    <input type="submit" name="cancel" value="Cancel" formnovalidate></input>
 </form>
 </body>
 </html>

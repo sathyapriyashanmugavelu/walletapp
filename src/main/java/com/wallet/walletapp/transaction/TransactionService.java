@@ -66,7 +66,7 @@ public class TransactionService {
     private static String formatTime(Date date) {
         Calendar ist = Calendar.getInstance(TimeZone.getTimeZone("IST"));
         ist.setTime(date);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss zzz");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
         sdf.setCalendar(ist);
         return sdf.format(ist.getTime());
     }

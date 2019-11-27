@@ -5,7 +5,7 @@
     <title>Transaction History</title>
 </head>
 <body>
-<a th:href="@{'/wallet'}">Back to Dashboard</a>
+<a th:href="@{'/dashboard'}">Back to Dashboard</a>
 
 <br>
 <br>
@@ -16,21 +16,21 @@
 
 <div th:unless="${transaction.empty}">
 <h3>Transaction History</h3>
-<table border="1" width="80%" >
+<table border="1" >
     <thead border="2">
     <!-- <th>Transaction Date & Time</th> -->
-    <th>Transaction Date & Time IST</th>
+    <th>Transaction Date & Time</th>
     <th>Transaction Type</th>
-    <th>Amount</th>
+    <th>Amount (in Rs.)</th>
     <th>Remarks</th>
     </thead>
     <tbody>
     <tr th:each="eachTransaction : ${transaction}">
         <!-- <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td> -->
-        <td th:text="${eachTransaction.getcreatedAtISTFormat()}"></td>
-        <td th:text="${#strings.capitalizeWords(eachTransaction.transactionType)}"></td>
-        <td th:text="${eachTransaction.amount}"></td>
-        <td th:text="${eachTransaction.remarks}"></td>
+        <td style='width: 200px' th:text="${eachTransaction.getcreatedAtISTFormat()}"></td>
+        <td style='width: 120px' th:text="${#strings.capitalizeWords(eachTransaction.transactionType)}"></td>
+        <td style='width: 150px' th:text="${eachTransaction.amount}"></td>
+        <td style='width: 150px' th:text="${eachTransaction.remarks}"></td>
     </tbody>
 </table>
 </div>

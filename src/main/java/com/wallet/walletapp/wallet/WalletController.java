@@ -21,7 +21,7 @@ public class WalletController {
     @Autowired
     private TransactionService transactionService;
 
-    @RequestMapping("/wallet")
+    @RequestMapping("/dashboard")
     String get(Model model) throws WalletNotFoundException {
         String username = userService.getUsernameForCurrentUser();
         model.addAttribute("greetMessage", "Hello " + username);
