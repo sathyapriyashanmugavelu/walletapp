@@ -54,14 +54,28 @@ class TransactionControllerTest {
         mockMvc.perform(post("/dashboard/transactions").with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("amount", "100")
-                .param("remarks", "rent"))
+                .param("remarks", "rent")
+                .param("submit", "Submit"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/wallet"));
+                .andExpect(view().name("redirect:/dashboard"));
 
         ArgumentCaptor<Transaction> argument = ArgumentCaptor.forClass(Transaction.class);
         verify(transactionService).create(argument.capture(), eq(1L));
         assertEquals("rent", argument.getValue().getRemarks());
         assertEquals(100L, argument.getValue().getAmount());
+    }
+
+    @Test
+    void shoudRedirectWhenCancelled() throws Exception {
+        Wallet wallet = new Wallet(1,0);
+        when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
+        mockMvc.perform(post("/dashboard/transactions").with(csrf())
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("amount", "100")
+                .param("remarks", "rent")
+                .param("cancel", "Cancel"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/dashboard"));
     }
 
     @Test
