@@ -1,6 +1,7 @@
 package com.wallet.walletapp.transaction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wallet.walletapp.wallet.InsufficientBalanceException;
 import com.wallet.walletapp.wallet.Wallet;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -81,8 +82,13 @@ public class Transaction {
                 '}';
     }
 
-    void process() {
-        wallet.credit(amount);
+    void process() throws InsufficientBalanceException {
+        if(transactionType == TransactionType.CREDIT) {
+            wallet.credit(amount);
+        }
+        else if(transactionType == TransactionType.DEBIT) {
+            wallet.debit(amount);
+        }
     }
 
     public Date getCreatedAt() {

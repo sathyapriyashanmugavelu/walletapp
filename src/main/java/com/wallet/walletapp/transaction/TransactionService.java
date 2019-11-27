@@ -1,5 +1,6 @@
 package com.wallet.walletapp.transaction;
 
+import com.wallet.walletapp.wallet.InsufficientBalanceException;
 import com.wallet.walletapp.wallet.Wallet;
 import com.wallet.walletapp.wallet.WalletNotFoundException;
 import com.wallet.walletapp.wallet.WalletService;
@@ -26,7 +27,7 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Transaction create(Transaction transaction, Long walletId) throws WalletNotFoundException {
+    public Transaction create(Transaction transaction, Long walletId) throws WalletNotFoundException, InsufficientBalanceException {
         Wallet wallet = walletService.fetch(walletId);
         transaction.setTransactionType(TransactionType.CREDIT);
         transaction.setWallet(wallet);
@@ -69,5 +70,27 @@ public class TransactionService {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss zzz");
         sdf.setCalendar(ist);
         return sdf.format(ist.getTime());
+    }
+
+    public void transferMoney(Long fromUserId, Long toUserId, Long transferAmount, String remarks) throws InsufficientBalanceException {
+        Wallet fromWallet = walletService.findWalletForUser(fromUserId);
+        Transaction fromTransction = new Transaction();
+        fromTransction.setWallet(fromWallet);
+        fromTransction.setAmount(transferAmount);
+        fromTransction.setTransactionType(TransactionType.DEBIT);
+        fromTransction.setRemarks(remarks);
+        fromTransction.process();
+
+        Wallet toWallet = walletService.findWalletForUser(toUserId);
+        Transaction toTransaction = new Transaction();
+        toTransaction.setWallet(toWallet);
+        toTransaction.setAmount(transferAmount);
+        toTransaction.setTransactionType(TransactionType.CREDIT);
+        toTransaction.setRemarks(remarks);
+        toTransaction.process();
+
+        transactionRepository.save(fromTransction);
+        transactionRepository.save(toTransaction);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.wallet.walletapp.transaction;
 
+import com.wallet.walletapp.wallet.InsufficientBalanceException;
 import com.wallet.walletapp.wallet.Wallet;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 class TransactionTest {
     @Test
-    void shouldUpdateWalletBalanceOnProcess() {
+    void shouldUpdateWalletBalanceOnProcess() throws InsufficientBalanceException {
         Wallet wallet = mock(Wallet.class);
         Transaction transaction = creditTransaction();
         transaction.setWallet(wallet);

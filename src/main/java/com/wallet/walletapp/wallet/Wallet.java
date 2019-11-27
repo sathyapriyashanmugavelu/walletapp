@@ -42,7 +42,15 @@ public class Wallet {
     }
 
     public void credit(Long amount) {
+
         balance += amount;
+    }
+
+    public void debit(Long amount) throws InsufficientBalanceException {
+        if (balance < amount) {
+            throw new InsufficientBalanceException();
+        }
+        balance -= amount;
     }
 
     public List<Transaction> getTransactions() {

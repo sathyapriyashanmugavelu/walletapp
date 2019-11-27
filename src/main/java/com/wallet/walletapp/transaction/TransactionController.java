@@ -1,6 +1,7 @@
 package com.wallet.walletapp.transaction;
 
 import com.wallet.walletapp.user.UserService;
+import com.wallet.walletapp.wallet.InsufficientBalanceException;
 import com.wallet.walletapp.wallet.Wallet;
 import com.wallet.walletapp.wallet.WalletNotFoundException;
 import com.wallet.walletapp.wallet.WalletService;
@@ -45,7 +46,7 @@ class TransactionController {
 
     @PostMapping
     String create(@Valid @ModelAttribute Transaction transaction,
-                  BindingResult bindingResult) throws WalletNotFoundException {
+                  BindingResult bindingResult) throws WalletNotFoundException, InsufficientBalanceException {
         if(bindingResult.hasErrors()) {
             return "transactions/new";
         }

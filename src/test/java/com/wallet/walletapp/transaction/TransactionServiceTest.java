@@ -1,15 +1,13 @@
 package com.wallet.walletapp.transaction;
 
-import com.wallet.walletapp.wallet.Wallet;
-import com.wallet.walletapp.wallet.WalletNotFoundException;
-import com.wallet.walletapp.wallet.WalletRepository;
-import com.wallet.walletapp.wallet.WalletService;
+import com.wallet.walletapp.user.User;
+import com.wallet.walletapp.user.UserRepository;
+import com.wallet.walletapp.wallet.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +22,9 @@ class TransactionServiceTest {
     WalletRepository walletRepository;
     @Autowired
     TransactionRepository transactionRepository;
+    @Autowired
+    UserRepository userRepository;
+
 
     @AfterEach
     void tearDown() {
@@ -32,7 +33,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldCreateDebitTransaction() throws Exception {
+    void shouldCreateCreditTransaction() throws Exception {
         Wallet savedWallet = createWallet();
         TransactionService transactionService = transactionService();
         Transaction savedTransaction = transactionService.create(creditTransaction(50L, savedWallet), savedWallet.getId());
@@ -54,7 +55,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void fetchATransactions() throws WalletNotFoundException {
+    void fetchATransactions() throws WalletNotFoundException, InsufficientBalanceException {
         Wallet savedWallet = createWallet();
         TransactionService transactionService = transactionService();
         transactionService.create(creditTransaction(50L, savedWallet),savedWallet.getId());
@@ -67,7 +68,7 @@ class TransactionServiceTest {
     @Test
     void fetchTransactionsList() {
         Wallet savedWallet = createWallet();
-        createDebitTransactions(savedWallet);
+        createCreditTransactions(savedWallet);
         List<Transaction> transactions = transactionService().findTransaction(savedWallet.getId());
 
         assertEquals(50,transactions.get(1).getAmount());
@@ -88,7 +89,7 @@ class TransactionServiceTest {
         return walletRepository.save(new Wallet(100L));
     }
 
-    private void createDebitTransactions(Wallet wallet) {
+    private void createCreditTransactions(Wallet wallet) {
         transactionRepository.save(creditTransaction(50L, wallet));
         transactionRepository.save(creditTransaction(100L, wallet));
     }
@@ -152,5 +153,33 @@ class TransactionServiceTest {
         assertEquals(100L, sortedTransactions.get(1).getAmount());
 
     }
+    @Test
+    void shouldBeAbleToTransferMoneyFromOneUserToOther() throws InsufficientBalanceException {
 
+        Wallet fromWallet = new Wallet(500L);
+        User fromUser = new User(1L, "foo", "foobar");
+        fromWallet.setUser(fromUser);
+        userRepository.save(fromUser);
+        walletRepository.save(fromWallet);
+
+        Wallet toWallet = new Wallet(100L);
+        User toUser = new User(2L, "bar", "foobar");
+        toWallet.setUser(toUser);
+        userRepository.save(toUser);
+        walletRepository.save(toWallet);
+
+        TransactionService transactionService = transactionService();
+        Long fromUserId = 1L;
+        Long toUserId = 2L;
+        Long transferAmount = 100L;
+        String remarks = "Test transfer";
+        transactionService.transferMoney(fromUserId, toUserId, transferAmount, remarks);
+
+        Wallet fromWalletAfter = walletRepository.findByUserId(1L);
+        Wallet toWalletAfter = walletRepository.findByUserId(2L);
+
+        assertEquals(200L, toWalletAfter.getBalance());
+        assertEquals(400L, fromWalletAfter.getBalance());
+
+    }
 }
