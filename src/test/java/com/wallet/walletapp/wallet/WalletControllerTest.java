@@ -45,7 +45,7 @@ class WalletControllerTest {
         when(userService.getCurrentUserId()).thenReturn(user.getId());
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
         when(transactionService.getRecentTransactions((long) 1)).thenReturn(recentTransactions);
-        mockMvc.perform(get("/wallet"))
+        mockMvc.perform(get("/dashboard"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("wallet", wallet))
                 .andExpect(view().name("wallets/show"));
@@ -69,7 +69,7 @@ class WalletControllerTest {
 
         when(transactionService.getRecentTransactions(anyLong())).thenReturn(recentTransactions);
 
-        mockMvc.perform(get("/wallet"))
+        mockMvc.perform(get("/dashboard"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("recentTransactions", Matchers.equalTo(recentTransactions)))
                 .andExpect(view().name("wallets/show"));

@@ -41,7 +41,7 @@ class TransactionControllerTest {
     void shouldShowNewTransaction() throws Exception {
         Wallet wallet = new Wallet(1,0);
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
-        mockMvc.perform(post("/wallet/transactions/new").with(csrf()))
+        mockMvc.perform(post("/dashboard/transactions/new").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("transaction", isA(Transaction.class)))
                 .andExpect(view().name("transactions/new"));
@@ -51,12 +51,13 @@ class TransactionControllerTest {
     void shouldCreateTransaction() throws Exception {
         Wallet wallet = new Wallet(1,0);
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
-        mockMvc.perform(post("/wallet/transactions").with(csrf())
+        mockMvc.perform(post("/dashboard/transactions").with(csrf())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("amount", "100")
-                .param("remarks", "rent"))
+                .param("remarks", "rent")
+                .param("submit", "Submit"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/wallet"));
+                .andExpect(view().name("redirect:/dashboard"));
 
         ArgumentCaptor<Transaction> argument = ArgumentCaptor.forClass(Transaction.class);
         verify(transactionService).create(argument.capture(), eq(1L));
@@ -65,10 +66,23 @@ class TransactionControllerTest {
     }
 
     @Test
+    void shoudRedirectWhenCancelled() throws Exception {
+        Wallet wallet = new Wallet(1,0);
+        when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
+        mockMvc.perform(post("/dashboard/transactions").with(csrf())
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("amount", "100")
+                .param("remarks", "rent")
+                .param("cancel", "Cancel"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/dashboard"));
+    }
+
+    @Test
     void shouldShowViewAllTransactions() throws Exception {
         Wallet wallet = new Wallet(1,0);
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
-        mockMvc.perform(post("/wallet/transactions/show").with(csrf()))
+        mockMvc.perform(post("/dashboard/transactions").with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("transactions/show"));
     }

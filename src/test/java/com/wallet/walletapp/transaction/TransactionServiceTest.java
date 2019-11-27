@@ -129,7 +129,7 @@ class TransactionServiceTest {
         List<Transaction> transactionWithDateFormat = transactionService.addISTDateFormat(transactions);
 
         String formatDate =  transactionWithDateFormat.get(0).getcreatedAtISTFormat();
-        assertEquals("25 Nov 2019 05:30:00 IST", formatDate);
+        assertEquals("25 Nov 2019 05:30:00", formatDate);
     }
 
     @Test

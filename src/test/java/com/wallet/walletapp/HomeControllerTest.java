@@ -25,6 +25,6 @@ class HomeControllerTest {
     void shouldDisplayGreet() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/wallet"));
+                .andExpect(view().name("redirect:/dashboard"));
     }
 }

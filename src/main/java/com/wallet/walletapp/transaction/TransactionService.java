@@ -7,6 +7,7 @@ import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -36,7 +37,7 @@ public class TransactionService {
     }
 
     public List<Transaction> findTransaction(Long walletId) {
-        List<Transaction> transactions=transactionRepository.findByWalletId(walletId);
+        List<Transaction> transactions = transactionRepository.findByWalletId(walletId);
         List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
         List<Transaction> sortedTransactions = sortTransactions(transactionsWithDateFormat);
         return sortedTransactions;
@@ -49,8 +50,7 @@ public class TransactionService {
         return sortedTransactions;
     }
 
-    public List<Transaction> sortTransactions(List<Transaction> transactions)
-    {
+    public List<Transaction> sortTransactions(List<Transaction> transactions) {
         transactions.sort(Comparator.comparing(Transaction::getCreatedAt).reversed());
         return transactions;
     }
@@ -67,7 +67,7 @@ public class TransactionService {
     private static String formatTime(Date date) {
         Calendar ist = Calendar.getInstance(TimeZone.getTimeZone("IST"));
         ist.setTime(date);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss zzz");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
         sdf.setCalendar(ist);
         return sdf.format(ist.getTime());
     }
@@ -92,5 +92,25 @@ public class TransactionService {
         transactionRepository.save(fromTransction);
         transactionRepository.save(toTransaction);
 
+    }
+
+    public List<Transaction> getFilteredTransactions(Long walletId, String fromDate, String toDate) {
+        Date fromDateValue = dateFormat(fromDate);
+        Date toDateValue = dateFormat(toDate);
+
+        List<Transaction> transactions = transactionRepository.getFilterTransaction(walletId, fromDateValue, toDateValue);
+        List<Transaction> transactionsWithDateFormat = addISTDateFormat(transactions);
+        List<Transaction> sortedTransactions = sortTransactions(transactionsWithDateFormat);
+        return sortedTransactions;
+    }
+
+    private Date dateFormat(String dateValue) {
+        Date convertedDate = null;
+        try {
+            convertedDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
     }
 }

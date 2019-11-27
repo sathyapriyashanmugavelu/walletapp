@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 class HomeController {
     @RequestMapping("/")
     String greet(Model model) {
-        return "redirect:/wallet";
+        return "redirect:/dashboard";
     }
 }
