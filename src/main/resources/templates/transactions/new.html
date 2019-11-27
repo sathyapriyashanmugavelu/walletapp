@@ -8,7 +8,7 @@
 <a th:href="@{'/dashboard'}">Back to Dashboard</a>
 <br>
 <form th:action="@{'/dashboard/transactions'}" th:object="${transaction}" method="post">
-        <p><label>Amount : </label><input th:required="required" type="text" th:field="*{amount}" id="amount"/></p>
+        <p><label>Amount : </label><input th:required="required" type="text" th:field="*{amount}" id="amount" maxlength="200"/></p>
         <p th:style="'color:red'"><span class="error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span></p>
         <p><label>Remarks : </label><input type="text" th:field="*{remarks}" id="remarks"/></div></p>
     <br>
