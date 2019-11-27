@@ -22,11 +22,9 @@ public class DatabaseSeeder {
     CommandLineRunner initDatabase(UserRepository repository, UserService userService) {
         return args -> {
             String[] activeProfiles = this.environment.getActiveProfiles();
-            String profile = activeProfiles[0];
-            if(profile != "prod"){
+            if (activeProfiles.length != 0 && activeProfiles[0] != "prod") {
                 if (repository.findByUserName("seed-user-1").isEmpty()) {
                     userService.create(new User("seed-user-1", "foobar"));
-
                 }
                 if (repository.findByUserName("seed-user-3").isEmpty()) {
                     userService.create(new User("seed-user-3", "foobar"));
