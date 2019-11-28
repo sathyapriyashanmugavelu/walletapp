@@ -99,4 +99,17 @@ class TransactionControllerTest {
                 .andExpect(model().attribute("transactionPage", isA(Page.getClass())))
                 .andExpect(view().name("transactions/show"));
     }*/
+
+    @Test
+    void shouldShowFilteredTransactions() throws Exception {
+        Wallet wallet = new Wallet(1,0);
+        when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
+        mockMvc.perform(post("/dashboard/transactions/filter").with(csrf())
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("fromDate", "2019-11-12")
+                .param("toDate", "2019-11-20"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("transactions/show"));
+    }
+
 }

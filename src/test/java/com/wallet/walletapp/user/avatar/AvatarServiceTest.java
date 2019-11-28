@@ -1,5 +1,6 @@
 package com.wallet.walletapp.user.avatar;
 
+import com.wallet.walletapp.user.User;
 import com.wallet.walletapp.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,11 @@ public class AvatarServiceTest {
     CloudinaryService cloudinaryService;
 
     @Test
-    void shouldReturnImageTag() throws Exception {
-        when(cloudinaryService.getImageTag(anyString())).thenReturn("imageurl");
-        String returnImage = avatarService.getFile("imageName");
+    void shouldReturnImageTagForDefaultImage() throws Exception {
+        when(cloudinaryService.checkAndGetTag(any(User.class))).thenReturn("defaultimageurl");
+        User user = new User(1, "test", "test123");
+        String returnImage = avatarService.getAvatar(user);
 
-        assertEquals("imageurl", returnImage);
+        assertEquals("defaultimageurl", returnImage);
     }
 }
