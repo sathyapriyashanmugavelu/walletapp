@@ -9,7 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -49,9 +53,16 @@ public class UserController {
 
    @RequestMapping("/userprofile")
     String get(Model model) {
-        String defaultAvatar=this.environment.getProperty("user.avatar.default");
-        String imageTag= avatarService.getFile(defaultAvatar);
-        model.addAttribute("userName", "Sathya");
+        User user=userService.getCurrentUser();
+        String imageTag= avatarService.getAvatar(user);
+        model.addAttribute("imagetag", imageTag);
+        return "user/profile";
+    }
+
+    @PostMapping("/avatarupload")
+    String upload(@RequestParam("avatarImage") MultipartFile avatarImage,Model model) throws IOException {
+        User user=userService.getCurrentUser();
+        String imageTag= avatarService.uploadAvatar(avatarImage,user);
         model.addAttribute("imagetag", imageTag);
         return "user/profile";
     }

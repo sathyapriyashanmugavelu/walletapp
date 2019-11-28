@@ -54,4 +54,9 @@ public class UserService implements UserDetailsService {
         User savedUser = userRepository.save(user);
         return savedUser;
     }
+
+    public User updateUser(User user) {
+        User savedUser = userRepository.save(user);
+        return savedUser;
+    }
 }
