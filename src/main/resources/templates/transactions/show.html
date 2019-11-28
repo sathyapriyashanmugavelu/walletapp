@@ -18,28 +18,32 @@
 <br>
 
 <h3>Transaction History</h3>
-<p th:if="${transaction.empty}">
-    No Transactions have been performed on this wallet
+<p th:if="${transactionPage.empty}">
+    No Transactions have been performed on this wallet.
 </p>
 
-<div th:unless="${transaction.empty}">
-    <table border="1">
-        <thead border="2">
-        <!-- <th>Transaction Date & Time</th> -->
-        <th>Transaction Date & Time</th>
-        <th>Transaction Type</th>
-        <th>Amount (in Rs.)</th>
-        <th>Remarks</th>
-        </thead>
-        <tbody>
-        <tr th:each="eachTransaction : ${transaction}">
-            <!-- <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td> -->
-            <td style='width: 200px' th:text="${eachTransaction.getcreatedAtISTFormat()}"></td>
-            <td style='width: 120px' th:text="${#strings.capitalizeWords(eachTransaction.transactionType)}"></td>
-            <td style='width: 150px' th:text="${eachTransaction.amount}"></td>
-            <td style='width: 150px' th:text="${eachTransaction.remarks}"></td>
-        </tbody>
-    </table>
+<div th:unless="${transactionPage.empty}">
+<table border="1" >
+    <thead border="2">
+    <!-- <th>Transaction Date & Time</th> -->
+    <th>Transaction Date & Time</th>
+    <th>Transaction Type</th>
+    <th>Amount (in Rs.)</th>
+    <th>Remarks</th>
+    </thead>
+    <tbody>
+    <tr th:each="eachTransaction : ${transactionPage.content}">
+        <!-- <td th:text="${#calendars.format(eachTransaction.createdAt)}"></td> -->
+        <td style='width: 200px' th:text="${eachTransaction.getcreatedAtISTFormat()}"></td>
+        <td style='width: 120px' th:text="${#strings.capitalizeWords(eachTransaction.transactionType)}"></td>
+        <td style='width: 150px' th:text="${eachTransaction.amount}"></td>
+        <td style='width: 150px' th:text="${eachTransaction.remarks}"></td>
+    </tbody>
+</table>
+    Pages:
+    <div th:if="${transactionPage.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/dashboard/transactions(size=${transactionPage.size}, page=${pageNumber})}" th:text=${pageNumber} th:class="${pageNumber==transactionPage.number + 1} ? active"></a>
+    </div>
 </div>
 </body>
 </html>

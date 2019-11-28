@@ -37,6 +37,13 @@ public class Transaction {
     public Transaction() {
     }
 
+    public Transaction(@Min(value = 10, message = "Amount should not be lesser than 10") Long amount, String remarks, TransactionType transactionType, Wallet wallet) {
+        this.amount = amount;
+        this.remarks = remarks;
+        this.transactionType = transactionType;
+        this.wallet = wallet;
+    }
+
     public Long getId() {
         return id;
     }

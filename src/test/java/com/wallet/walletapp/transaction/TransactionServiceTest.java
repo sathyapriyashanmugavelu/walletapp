@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 
 import java.util.ArrayList;
@@ -157,7 +160,7 @@ class TransactionServiceTest {
 
     }
 
-    //@Test
+    @Test
     void shouldBeAbleToTransferMoneyFromOneUserToOther() throws InsufficientBalanceException {
 
         Wallet fromWallet = new Wallet(500L);
@@ -215,5 +218,45 @@ class TransactionServiceTest {
         TransactionService transactionService = transactionService();
         List<Transaction> filteredTransactions = transactionService.getFilteredTransactions(1L, "2019-11-25","2019-11-26");
         assertEquals(0, filteredTransactions.size());
+    }
+
+    @Test
+    void shouldGetPaginatedListOfTransactions() {
+        Wallet wallet = new Wallet( 500L);
+        User user = new User(1L, "foo", "foobar");
+        wallet.setUser(user);
+        userRepository.save(user);
+        walletRepository.save(wallet);
+
+        List<Transaction> transactionsInSecondPage = new ArrayList<>();
+        transactionsInSecondPage.add(transactionRepository.save(new Transaction(100L, "test 1", TransactionType.CREDIT, wallet)));
+        transactionsInSecondPage.add(transactionRepository.save(new Transaction(200L, "test 2", TransactionType.CREDIT, wallet)));
+
+        List<Transaction> transactionsInFirstPage = new ArrayList<>();
+        transactionsInFirstPage.add(transactionRepository.save(new Transaction(300L, "test 3", TransactionType.CREDIT, wallet)));
+        transactionsInFirstPage.add(transactionRepository.save(new Transaction(400L, "test 4", TransactionType.CREDIT, wallet)));
+        transactionsInFirstPage.add(transactionRepository.save(new Transaction(500L, "test 5", TransactionType.CREDIT, wallet)));
+
+
+        TransactionService transactionService = transactionService();
+
+
+        List<Transaction> allTransactions = new ArrayList<>();
+        allTransactions.addAll(transactionsInFirstPage);
+        allTransactions.addAll(transactionsInSecondPage);
+
+        Page<Transaction> expectedTransactionPage = new PageImpl<Transaction>(transactionsInFirstPage,
+                PageRequest.of(0, 3), allTransactions.size());
+
+        Page<Transaction> actualTransactionsPage = transactionService.findPaginatedTransactions(PageRequest.of(0, 3), wallet.getId());
+        assertEquals(expectedTransactionPage.getSize(), actualTransactionsPage.getSize());
+        assertEquals(500, actualTransactionsPage.getContent().get(0).getAmount());
+
+        expectedTransactionPage = new PageImpl<Transaction>(transactionsInSecondPage,
+                PageRequest.of(1, 3), allTransactions.size());
+
+        actualTransactionsPage = transactionService.findPaginatedTransactions(PageRequest.of(1, 3), wallet.getId());
+        assertEquals(expectedTransactionPage.getSize(), actualTransactionsPage.getSize());
+        assertEquals(200, actualTransactionsPage.getContent().get(0).getAmount());
     }
 }
