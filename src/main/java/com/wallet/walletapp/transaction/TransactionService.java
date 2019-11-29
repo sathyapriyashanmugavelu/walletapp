@@ -75,17 +75,17 @@ public class TransactionService {
     public void transferMoney(Long fromUserId, Long toUserId, Long transferAmount, String remarks) throws InsufficientBalanceException {
         Wallet fromWallet = walletService.findWalletForUser(fromUserId);
         Transaction fromTransction = new Transaction();
-        fromTransction.setWallet(fromWallet);
         fromTransction.setAmount(transferAmount);
         fromTransction.setTransactionType(TransactionType.DEBIT);
+        fromTransction.setWallet(fromWallet);
         fromTransction.setRemarks(remarks);
         fromTransction.process();
 
         Wallet toWallet = walletService.findWalletForUser(toUserId);
         Transaction toTransaction = new Transaction();
-        toTransaction.setWallet(toWallet);
         toTransaction.setAmount(transferAmount);
         toTransaction.setTransactionType(TransactionType.CREDIT);
+        toTransaction.setWallet(toWallet);
         toTransaction.setRemarks(remarks);
         toTransaction.process();
 

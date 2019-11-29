@@ -10,10 +10,11 @@
 <a th:href="@{'/dashboard/transactions/new'}">Add Money</a>
 <br>
 <a th:href="@{'/dashboard/transactions'}">View All Transactions</a>
-
+<br>
+<a th:href="@{'/dashboard/transactions/moneytransfer'}">Money Transfer</a>
+<br>
 <div th:unless="${recentTransactions.empty}">
 
-    <h3>Recent Transactions </h3>
 <table border="1">
     <thead border="2">
     <th>Transaction Date & Time</th>

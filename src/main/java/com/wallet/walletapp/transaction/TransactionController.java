@@ -1,5 +1,6 @@
 package com.wallet.walletapp.transaction;
 
+import com.wallet.walletapp.user.User;
 import com.wallet.walletapp.user.UserService;
 import com.wallet.walletapp.wallet.InsufficientBalanceException;
 import com.wallet.walletapp.wallet.Wallet;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/dashboard/transactions")
@@ -74,4 +76,20 @@ class TransactionController {
         model.addAttribute("transaction", transactions);
         return "transactions/show";
     }
+
+    @RequestMapping("/moneytransfer")
+    String moneyTransfer(@ModelAttribute User user,Model model){
+        List<User> users=userService.getUsers();
+        model.addAttribute("users",users);
+        return "transactions/moneytransfer";
+    }
+
+    @PostMapping("/moneytransfer")
+    String moneyTransferToUser(@RequestParam("userNameSelect") Long toUserId,@RequestParam("amount") Long amount,
+                               @RequestParam("remarks") String remarks) throws InsufficientBalanceException {
+        Long fromUserId=userService.getCurrentUserId();
+        transactionService.transferMoney(fromUserId,toUserId,amount,remarks);
+        return "redirect:/dashboard";
+    }
+
 }
