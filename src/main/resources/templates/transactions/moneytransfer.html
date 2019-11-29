@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: headerFragment">
+    <meta charset="UTF-8">
+    <title>Money Transfer</title>
+</head>
+<body>
+<a th:href="@{'/dashboard'}">Back to Dashboard</a>
+<br>
+<br>
+
+<form action="#" th:action="@{'/dashboard/transactions/moneytransfer'}" method="post" >
+    <table>
+        <tr>
+            <td>Beneficiary:</td>
+            <!--<td><input name="beneficiary" th:type="text"/></td>-->
+            <td>
+                <select name="userNameSelect">
+                    <option value="0">Select User</option>
+                    <option th:each="user : ${users}"
+                            th:value="${user.id}"
+                            th:text="${user.userName}">
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Amount:</td>
+            <td><input name="amount" th:type="text"/></td>
+        </tr>
+        <tr>
+            <td>Remarks:</td>
+            <td><input name="remarks" th:type="text"/></td>
+        </tr>
+        <tr>
+            <td><br></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Submit"/>
+            </td>
+            <td>
+        </tr>
+    </table>
+
+
+</form>
+</body>
+</html>

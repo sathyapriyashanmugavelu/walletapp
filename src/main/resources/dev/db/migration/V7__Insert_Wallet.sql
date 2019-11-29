@@ -5,6 +5,6 @@ VALUES (1,
 
 INSERT INTO wallet (id,balance,user_id)
 VALUES (3,
-        100,
+        0,
         2) ON CONFLICT DO NOTHING;
 
