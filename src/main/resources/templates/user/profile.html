@@ -5,7 +5,22 @@
     <title>User Profile</title>
 </head>
 <body>
-<h1></h1><div th:text="${#authentication.getPrincipal().getUsername()}"></div></h1>
-<div style="width:100px;height:100px;" th:utext="${imagetag}"></div>
+<a th:href="@{'/dashboard'}">Back to Dashboard</a>
+<br>
+<div style="font-size: 30px; text-align: center;"> User Profile </div>
+<div>
+    <div style="font-size: 20px; margin-bottom: 20px;" th:text="${#authentication.getPrincipal().getUsername()}"></div>
+    <div style="margin-bottom: 20px;" th:utext="${imagetag}"></div>
+
+    <div>
+        <form action="#" th:action="@{/avatarupload}" method="POST"  enctype="multipart/form-data" >
+            <input type="file" name="avatarImage"/>
+            <div><input type="submit" value="UPLOAD" /></div>
+        </form>
+    </div>
+
+</div>
 </body>
 </html>
+
+

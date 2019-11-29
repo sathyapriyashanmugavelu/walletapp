@@ -10,12 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.isA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -78,12 +78,30 @@ class TransactionControllerTest {
                 .andExpect(view().name("redirect:/dashboard"));
     }
 
+    /*@Test
+    void shouldShowViewAllTransactionsInPage() throws Exception {
+        Wallet wallet = new Wallet(1,0);
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(new Transaction(100L, "test 1", TransactionType.CREDIT, wallet));
+        PageImpl pageImpl = new PageImpl<Transaction>(transactions, PageRequest.of(0, 10),transactions.size());
+        when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
+        when(transactionService.findPaginatedTransactions(PageRequest.of(anyInt(), 10),anyLong())).thenReturn(pageImpl);
+        mockMvc.perform(post("/dashboard/transactions").with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("transactionPage", isA(Page.getClass())))
+                .andExpect(view().name("transactions/show"));
+    }*/
+
     @Test
-    void shouldShowViewAllTransactions() throws Exception {
+    void shouldShowFilteredTransactions() throws Exception {
         Wallet wallet = new Wallet(1,0);
         when(walletService.findWalletForUser(anyLong())).thenReturn(wallet);
-        mockMvc.perform(post("/dashboard/transactions").with(csrf()))
+        mockMvc.perform(post("/dashboard/transactions/filter").with(csrf())
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("fromDate", "2019-11-12")
+                .param("toDate", "2019-11-20"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("transactions/show"));
     }
+
 }

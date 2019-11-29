@@ -27,6 +27,8 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Wallet wallet;
 
+    private Long avatarversion;
+
     public User() {
     }
 
@@ -59,6 +61,14 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public Long getAvatarversion() {
+        return avatarversion;
+    }
+
+    public void setAvatarversion(Long avatarversion) {
+        this.avatarversion = avatarversion;
     }
 
     Wallet createWallet(){

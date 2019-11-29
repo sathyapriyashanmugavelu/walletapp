@@ -5,15 +5,15 @@ import com.wallet.walletapp.wallet.Wallet;
 import com.wallet.walletapp.wallet.WalletNotFoundException;
 import com.wallet.walletapp.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Service
 public class TransactionService {
@@ -112,5 +112,25 @@ public class TransactionService {
             e.printStackTrace();
         }
         return convertedDate;
+    }
+
+    public Page<Transaction> findPaginatedTransactions(Pageable pageable, long walletId) {
+        List<Transaction> transactionsForWallet = findTransaction(walletId);
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Transaction> transactions;
+
+        if (transactionsForWallet.size() < startItem) {
+            transactions = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, transactionsForWallet.size());
+            transactions = transactionsForWallet.subList(startItem, toIndex);
+        }
+
+        Page<Transaction> transactionPage = new PageImpl<Transaction>(transactions,
+                PageRequest.of(currentPage, pageSize), transactionsForWallet.size());
+
+        return transactionPage;
     }
 }

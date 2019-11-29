@@ -56,11 +56,17 @@ public class UserService implements UserDetailsService {
         return savedUser;
     }
 
+
     public long getUserId(String userName){
         return userRepository.findUserId(userName);
     }
 
     public List<User> getUsers() {
         return userRepository.findAll();
-    }
+
+    public User updateUser(User user) {
+        User savedUser = userRepository.save(user);
+        return savedUser;
+
+    }}
 }
